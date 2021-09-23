@@ -1,0 +1,101 @@
+import pandas as pd
+import re
+from typing import List, Any, Callable, Dict
+from datetime import datetime
+from RowOrder import RowOrder
+
+
+class Order:
+    request: int = 0
+
+    def __init__(self, file: str) -> None:
+        self.file: str = file
+        self.request_str()
+        self.header()
+        self.data()
+
+    def request_str(self) -> str:
+        string: str = str(self.request)
+        n: int = 5 - len(string)
+        self.request_str: str = '0' * n + string
+        return self.request_str
+
+    def header(self):
+        df_header = pd.read_excel(
+            self.file, dtype={'COLOR': str, 'REFERENCIA': str}).iloc[:4]
+        i = 17
+        while not isinstance(df_header.iloc[1, i], datetime):
+            i += 1
+
+        self.date: datetime = df_header.iloc[1, i]
+        self.month: str = self.date.strftime('%b')
+        self.year: int = self.date.year
+        self.customer: str = df_header.columns[4]
+        self.agent: str = df_header.iloc[0, i]
+
+    def data(self):
+        df = pd.read_excel(self.file, header=5, dtype={
+                           'COLOR': str, 'REFERENCIA': str}).loc[:, :'TOTAL'].iloc[:-1, :]
+        # just keep correct values
+        df = df[df['TOTAL'].apply(is_number)].reset_index(drop=True)
+        # Fill nan values
+        df['REFERENCIA'].fillna(method='ffill', inplace=True)
+        df['COLOR'].fillna('SURTIDO', inplace=True)
+        print(df.shape)
+        self.data = self.select_data(df)
+
+    def select_data(self, df) -> List[RowOrder]:
+        start: int = 2
+        end: int = df.shape[1] - 1
+
+        list_rows: List[RowOrder] = []
+        line = dif_line(df.iloc[0, 0])
+
+        for i in range(df.shape[0]):
+            for j in range(start, end):
+                if str(df.iloc[i, j]) != 'nan':
+                    list_rows.append(
+                        RowOrder(
+                            reference=df.iloc[i, 0],
+                            color=df.iloc[i, 1],
+                            size=df.columns[j],
+                            quantity=df.iloc[i, j],
+                            line=line,
+                            date=self.date,
+                            month=self.month,
+                            year=self.year,
+                            customer=self.customer,
+                            request=self.request_str,
+                            agent=self.agent
+                        ).row()
+                    )
+        return list_rows
+
+
+def is_number(x: object) -> int:
+    filter_numbre: re = re.compile('^[0-9]+.?[0-9]?$')
+    flag: bool = False
+    if filter_numbre.match(str(x)) and int(x) > 0:
+        flag = True
+    return flag
+
+
+def dif_line(x: object) -> str:
+    '''Definir a que linea pertenece el producto'''
+
+    givec = re.compile('[A-Za-z]{2,}[0-9]{2,}.*')
+    givec2 = re.compile('[VB][0-9]{3}')
+    kyly = re.compile('[0-9]{4,}.*')
+    kyly2 = re.compile('M[0-9]{4,}.*')
+    tinta = re.compile('[A-Za-z]{3,}.*')
+    tinta2 = re.compile('M-[A-Za-z]{2,}')
+    x = str(x)
+    if givec.match(x) or givec2.match(x):
+        line = 'GIVEC'
+    elif tinta.match(x) or tinta2.match(x):
+        line = 'TINTA STYLE'
+    elif kyly.match(x) or kyly2.match(x):
+        line = 'GRUPO KYLY'
+    else:
+        line = 'Otro'
+    return line
