@@ -8,8 +8,9 @@ from RowOrder import RowOrder
 class Order:
     request: int = 0
 
-    def __init__(self, file: str) -> None:
+    def __init__(self, file: str, prices) -> None:
         self.file: str = file
+        self.prices = prices
         self.request_str()
         self.header()
         self.data()
@@ -30,8 +31,8 @@ class Order:
         self.date: datetime = df_header.iloc[1, i]
         self.month: str = self.date.strftime('%b')
         self.year: int = self.date.year
-        self.customer: str = df_header.columns[4]
-        self.agent: str = df_header.iloc[0, i]
+        self.customer: str = df_header.columns[4].upper()
+        self.agent: str = df_header.iloc[0, i].upper()
 
     def data(self):
         df = pd.read_excel(self.file, header=5, dtype={
@@ -54,19 +55,39 @@ class Order:
         for i in range(df.shape[0]):
             for j in range(start, end):
                 if str(df.iloc[i, j]) != 'nan':
+                    reference = str(df.iloc[i, 0])
+                    color = df.iloc[i, 1]
+                    size = str(df.columns[j]).upper()
+                    quantity = df.iloc[i, j]
+                    try:
+                        df_filter = self.prices[(self.prices['REFERENCIA'] == reference) & (
+                            self.prices['TALLAS'] == size)]
+                        price = df_filter.iloc[-1, 3]
+                        collection = df_filter.iloc[-1, 4]
+                        cost = df_filter.iloc[-1, 5]
+                    except IndexError as e:
+                        print('Referencia: {} con talla {}, no se encontro el precio {}'.format(
+                            reference, size, e))
+                        price = 0
+                        collection = ''
+                        cost = 0
+
                     list_rows.append(
                         RowOrder(
-                            reference=df.iloc[i, 0],
-                            color=df.iloc[i, 1],
-                            size=df.columns[j],
-                            quantity=df.iloc[i, j],
+                            reference=reference,
+                            color=color,
+                            size=size,
+                            quantity=quantity,
                             line=line,
                             date=self.date,
                             month=self.month,
                             year=self.year,
                             customer=self.customer,
                             request=self.request_str,
-                            agent=self.agent
+                            agent=self.agent,
+                            price=price,
+                            cost=cost,
+                            collection=collection
                         ).row()
                     )
         return list_rows

@@ -6,7 +6,7 @@ from datetime import datetime
 
 class RowOrder():
     def __init__(self, reference: str, color: str, size: str, quantity: int, line: str, date: datetime, month: str, year: int,
-                 customer: str, request: str, agent: str) -> None:
+                 customer: str, request: str, agent: str, price: int, cost: int, collection: str) -> None:
         self.reference: str = reference
         self.color: str = color
         self.size: str = size
@@ -19,6 +19,9 @@ class RowOrder():
         self.agent: str = agent
         self.month: str = month
         self.year: int = year
+        self.price: int = int(price)
+        self.cost: int = int(cost)
+        self.collection: str = collection
 
     def row(self) -> Dict[str, Any]:
         row = {
@@ -31,14 +34,14 @@ class RowOrder():
             'COLOR': self.color,
             'TALLAS': self.size,
             'CANTIDAD': self.quantity,
-            'PRECIO UND': 0,
-            'PRECIO TOTAL': 0,
+            'PRECIO UND': self.price,
+            'PRECIO TOTAL': self.price * self.quantity,
             'LINEA': self.line,
             'MARCA': self.brand,
-            'COLECCIÓN': '',
+            'COLECCIÓN': self.collection,
             'VENDEDOR': self.agent,
-            'COSTO': '',
-            'COSTO TOTAL': '',
+            'COSTO': self.cost,
+            'COSTO TOTAL': self.cost * self.quantity,
             'ESTADO': ''
         }
         return row
@@ -66,6 +69,7 @@ class RowOrder():
             amora = re.compile('5[0-9]{4}')
             millon = re.compile('1[0-9]{4}')
             millon2 = re.compile('[0-9]{4}')
+            millon3 = re.compile("M[0-9]{4,}.*")
 
             if nanai.match(codigo):
                 result = 'NANAI'
@@ -75,7 +79,7 @@ class RowOrder():
                 result = 'LEMON'
             elif amora.match(codigo):
                 result = 'AMORA'
-            elif millon.match(codigo) or millon2.match(codigo):
+            elif millon.match(codigo) or millon2.match(codigo) or millon3.match(codigo):
                 result = 'MILLON'
             else:
                 result = 'Otro'
