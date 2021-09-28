@@ -2,7 +2,7 @@ import pandas as pd
 import re
 from typing import List, Any, Callable, Dict
 from datetime import datetime
-from RowOrder import RowOrder
+from model.RowOrder import RowOrder
 
 
 class Order:
@@ -28,26 +28,44 @@ class Order:
         while not isinstance(df_header.iloc[1, i], datetime):
             i += 1
 
-        self.date: datetime = df_header.iloc[1, i]
-        self.month: str = self.date.strftime('%b')
-        self.year: int = self.date.year
-        self.customer: str = df_header.columns[4].upper()
-        self.agent: str = df_header.iloc[0, i].upper()
+        try:
+            self.date: datetime = df_header.iloc[1, i]
+            self.month: str = self.date.strftime('%b')
+            self.year: int = self.date.year
+        except:
+            print('Error con la fecha en el archivo {}'.format(self.file))
+
+        try:
+            self.customer: str = df_header.columns[4].upper()
+        except:
+            print('Error con nombre de compañia en el archivo {}'.format(self.file))
+
+        try:
+            self.agent: str = df_header.iloc[0, i].upper()
+        except:
+            print('Error con nombre de venta en el archivo {}'.format(self.file))
 
     def data(self):
         df = pd.read_excel(self.file, header=5, dtype={
                            'COLOR': str, 'REFERENCIA': str}).loc[:, :'TOTAL'].iloc[:-1, :]
+        try:
+            df_1 = pd.read_excel(self.file, header=5, dtype={
+                                 'Estado': str}).loc[:, 'Estado']
+        except:
+            print('Columna Estado no encontrada en el archivo {}'.format(self.file))
+
+        df = pd.concat([df, df_1], axis=1)
         # just keep correct values
         df = df[df['TOTAL'].apply(is_number)].reset_index(drop=True)
         # Fill nan values
         df['REFERENCIA'].fillna(method='ffill', inplace=True)
         df['COLOR'].fillna('SURTIDO', inplace=True)
-        print(df.shape)
+        print('Cantidad de filas', df.shape[0])
         self.data = self.select_data(df)
 
     def select_data(self, df) -> List[RowOrder]:
         start: int = 2
-        end: int = df.shape[1] - 1
+        end: int = df.shape[1] - 2
 
         list_rows: List[RowOrder] = []
         line = dif_line(df.iloc[0, 0])
@@ -59,6 +77,7 @@ class Order:
                     color = df.iloc[i, 1]
                     size = str(df.columns[j]).upper()
                     quantity = df.iloc[i, j]
+                    status = df.iloc[i, -1]
                     try:
                         df_filter = self.prices[(self.prices['REFERENCIA'] == reference) & (
                             self.prices['TALLAS'] == size)]
@@ -66,8 +85,8 @@ class Order:
                         collection = df_filter.iloc[-1, 4]
                         cost = df_filter.iloc[-1, 5]
                     except IndexError as e:
-                        print('Referencia: {} con talla {}, no se encontro el precio {}'.format(
-                            reference, size, e))
+                        print('\tReferencia: {} con talla {}, no se encontro el precio'.format(
+                            reference, size))
                         price = 0
                         collection = ''
                         cost = 0
@@ -87,7 +106,8 @@ class Order:
                             agent=self.agent,
                             price=price,
                             cost=cost,
-                            collection=collection
+                            collection=collection,
+                            status=status
                         ).row()
                     )
         return list_rows

@@ -1,12 +1,14 @@
 import pandas as pd
 import re
 from typing import List, Any, Callable, Dict
-from Prices import Prices
+from model.Prices import Prices
 
 
 class JoinPrices:
+    PATH = './precios/'
+
     def __init__(self, file):
-        self.file = file
+        self.file = self.PATH + file
         self.data = self.generate_data()
 
     def generate_data(self):
@@ -31,5 +33,5 @@ class JoinPrices:
         return list_prices
 
     def save(self, name_file):
-        pd.DataFrame(self.data).to_csv(
-            'Prueba.csv', index=False, encoding='utf-8')
+        pd.DataFrame(self.data).to_csv(self.PATH +
+                                       'Precio Desagrupado.csv', index=False, encoding='utf-8')

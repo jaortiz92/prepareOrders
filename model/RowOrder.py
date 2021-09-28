@@ -6,7 +6,7 @@ from datetime import datetime
 
 class RowOrder():
     def __init__(self, reference: str, color: str, size: str, quantity: int, line: str, date: datetime, month: str, year: int,
-                 customer: str, request: str, agent: str, price: int, cost: int, collection: str) -> None:
+                 customer: str, request: str, agent: str, price: int, cost: int, collection: str, status: str) -> None:
         self.reference: str = reference
         self.color: str = color
         self.size: str = size
@@ -22,6 +22,7 @@ class RowOrder():
         self.price: int = int(price)
         self.cost: int = int(cost)
         self.collection: str = collection
+        self.status: str = status
 
     def row(self) -> Dict[str, Any]:
         row = {
@@ -42,7 +43,7 @@ class RowOrder():
             'VENDEDOR': self.agent,
             'COSTO': self.cost,
             'COSTO TOTAL': self.cost * self.quantity,
-            'ESTADO': ''
+            'ESTADO': self.status
         }
         return row
 
