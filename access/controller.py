@@ -2,7 +2,7 @@ import sqlite3 as sql
 from sqlite3.dbapi2 import Cursor
 from model.RowOrder import RowOrder
 import os
-from typing import Dict, List, Any
+from typing import Dict, List, Any, Tuple
 
 PATH_DB = './backup/'
 FILE_DB = 'pedidos.db'
@@ -90,9 +90,11 @@ def last_id_orders(conn: Cursor):
 
 
 @connection_db
-def read_all_orders(conn: Cursor):
+def read_all_orders(conn: Cursor, date: str) -> List[Tuple[Any]]:
     cursor = conn.cursor()
     sql_instruction = 'SELECT * from orders'
+    if date:
+        sql_instruction += f' WHERE FECHA >= "{date}"'
     cursor.execute(sql_instruction)
     value = cursor.fetchall()
     return value

@@ -3,9 +3,14 @@ import numpy as np
 from model.Order import Order
 from model.RowOrder import RowOrder
 from model.JoinPrices import JoinPrices
-from access.controller import insert_rows_orders, init_file
+from access.controller import *
 import os
 import re
+
+COLUMNS = ['ID', 'FECHA', 'MES', 'AÑO', 'CLIENTE', 'PEDIDO #',
+           'REFERENCIA', 'COLOR', 'TALLAS', 'CANTIDAD', 'PRECIO UND',
+           'PRECIO TOTAL', 'LINEA', 'MARCA', 'COLECCIÓN', 'VENDEDOR',
+           'COSTO', 'COSTO TOTAL', 'ESTADO']
 
 
 class ServicesAddNewOrders:
@@ -105,6 +110,16 @@ class ServicesPandasOrders():
 class ServicesAddFileOrders(ServicesPandasOrders):
     def __init__(self, nane_file) -> None:
         df = pd.read_excel(nane_file,
-                           sheet_name='BASE', dtype={'PEDIDO #': str, 'AÑO': str, 'TALLAS': str})
+                           sheet_name='BASE', dtype={'PEDIDO #': str, 'TALLAS': str})
 
         super().__init__(df)
+
+
+class ServicesReadOrders():
+
+    def __init__(self, date=None) -> None:
+        self.init_process(date)
+
+    def init_process(self, date):
+        df = pd.DataFrame(read_all_orders(date), columns=COLUMNS)
+        print(df)
