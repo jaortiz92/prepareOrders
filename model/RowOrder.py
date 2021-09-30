@@ -2,11 +2,14 @@ import pandas as pd
 import re
 from typing import List, Any, Callable, Dict
 from datetime import datetime
+import numpy as np
 
 
 class RowOrder():
+    id = 0
+
     def __init__(self, reference: str, color: str, size: str, quantity: int, line: str, date: datetime, month: str, year: int,
-                 customer: str, request: str, agent: str, price: int, cost: int, collection: str, status: str) -> None:
+                 customer: str, request: str, agent: str, price: int, cost: int, collection: str, status: str, id: int = None) -> None:
         self.reference: str = reference
         self.color: str = color
         self.size: str = size
@@ -19,13 +22,22 @@ class RowOrder():
         self.agent: str = agent
         self.month: str = month
         self.year: int = year
-        self.price: int = int(price)
-        self.cost: int = int(cost)
         self.collection: str = collection
         self.status: str = status
+        if id:
+            self.id = id
+        if not np.isnan(price):
+            self.price: int = int(price)
+        else:
+            self.price: int = 0
+        if not np.isnan(cost):
+            self.cost: int = int(cost)
+        else:
+            self.cost: int = 0
 
     def row(self) -> Dict[str, Any]:
         row = {
+            'ID': int(self.id),
             'FECHA': self.date,
             'MES': self.month,
             'AÑO': self.year,

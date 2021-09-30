@@ -91,29 +91,29 @@ class Order:
                         collection = ''
                         cost = 0
 
-                    list_rows.append(
-                        RowOrder(
-                            reference=reference,
-                            color=color,
-                            size=size,
-                            quantity=quantity,
-                            line=line,
-                            date=self.date,
-                            month=self.month,
-                            year=self.year,
-                            customer=self.customer,
-                            request=self.request_str,
-                            agent=self.agent,
-                            price=price,
-                            cost=cost,
-                            collection=collection,
-                            status=status
-                        ).row()
+                    RowOrder.id += 1
+                    row_order = RowOrder(
+                        reference=reference,
+                        color=color,
+                        size=size,
+                        quantity=quantity,
+                        line=line,
+                        date=self.date,
+                        month=self.month,
+                        year=self.year,
+                        customer=self.customer,
+                        request=self.request_str,
+                        agent=self.agent,
+                        price=price,
+                        cost=cost,
+                        collection=collection,
+                        status=status
                     )
+                    list_rows.append(row_order.row())
         return list_rows
 
 
-def is_number(x: object) -> int:
+def is_number(x: object) -> bool:
     filter_numbre: re = re.compile('^[0-9]+.?[0-9]?$')
     flag: bool = False
     if filter_numbre.match(str(x)) and int(x) > 0:

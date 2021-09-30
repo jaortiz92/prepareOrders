@@ -5,3 +5,4 @@ files/*
 *.xls
 *.csv
 *.pyc
+*.db
