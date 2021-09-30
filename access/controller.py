@@ -113,7 +113,7 @@ def last_number_order(conn: Cursor):
 @connection_db
 def read_all_orders(conn: Cursor, date: str) -> List[Tuple[Any]]:
     cursor = conn.cursor()
-    sql_instruction = 'SELECT * from orders'
+    sql_instruction = 'SELECT * from orders ORDER BY ID'
     if date:
         sql_instruction += f' WHERE FECHA >= "{date}"'
     cursor.execute(sql_instruction)

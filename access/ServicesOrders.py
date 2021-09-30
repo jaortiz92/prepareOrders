@@ -14,6 +14,14 @@ COLUMNS = ['ID', 'FECHA', 'MES', 'AÑO', 'CLIENTE', 'PEDIDO #',
 PATH_NEW_ORDERS = './files/'
 
 
+def save_file(data: pd.DataFrame):
+    writer = pd.ExcelWriter('Ordenes.xlsx',
+                            datetime_format='dd-mm-yy')
+    data.to_excel(writer, index=False, sheet_name='Data')
+    writer.save()
+    writer = None
+
+
 class ServicesAddNewOrders:
     def __init__(self):
         last_id = last_id_orders()
@@ -22,7 +30,7 @@ class ServicesAddNewOrders:
         df = pd.DataFrame(final_data)
         df['ESTADO'] = df['ESTADO'].apply(self.change_status)
         ServicesPandasOrders(df)
-        self.save_file(df)
+        save_file(df)
 
     def change_status(self, x):
         result = x
@@ -58,13 +66,6 @@ class ServicesAddNewOrders:
             last_id = data.last_id
             list_total.extend(data.data)
         return list_total
-
-    def save_file(self, data):
-        writer = pd.ExcelWriter('Ordenes_unidas.xlsx',
-                                datetime_format='dd-mm-yy')
-        data.to_excel(writer, index=False)
-        writer.save()
-        writer = None
 
 
 class ServicesPandasOrders():
@@ -119,5 +120,5 @@ class ServicesReadOrders():
         self.init_process(date)
 
     def init_process(self, date):
-        df = pd.DataFrame(read_all_orders(date), columns=COLUMNS)
-        print(df)
+        self.df = pd.DataFrame(read_all_orders(date), columns=COLUMNS)
+        save_file(self.df)
