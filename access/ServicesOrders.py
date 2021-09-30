@@ -49,11 +49,7 @@ class ServicesAddNewOrders:
             files_order[int(file_match.group(1)) - 1] = file
 
         list_total = []
-
-        while(Order.request == 0):
-            last_request = input('Ingrese numero del ultimo pedido: ')
-            if last_request.isnumeric():
-                Order.request = int(last_request)
+        Order.request = int(last_number_order())
 
         for i in range(len(files_order)):
             Order.request += 1

@@ -81,9 +81,17 @@ def delete_all(conn: Cursor):
 
 @connection_db
 def last_id_orders(conn: Cursor):
-    #conn = sql.Cursor.fetchone
     cursor = conn.cursor()
     sql_instruction = 'SELECT max(id) from orders'
+    cursor.execute(sql_instruction)
+    value = cursor.fetchone()
+    return value[0]
+
+
+@connection_db
+def last_number_order(conn: Cursor):
+    cursor = conn.cursor()
+    sql_instruction = 'SELECT "PEDIDO #" from orders WHERE ID = (SELECT MAX(ID) FROM orders)'
     cursor.execute(sql_instruction)
     value = cursor.fetchone()
     return value[0]
