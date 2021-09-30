@@ -11,7 +11,12 @@ FILE_DB = 'pedidos.db'
 def connection_db(function):
     def wrapper(*args, **kwars):
         conn = sql.connect(PATH_DB + FILE_DB)
-        value = function(conn, *args, **kwars)
+        try:
+            value = function(conn, *args, **kwars)
+            print("Proceso completado Exitosamente")
+        except sql.Error as e:
+            print(f"Error en el proceso:\n\t{e}")
+            value = None
         conn.commit()
         conn.close
         return value
@@ -76,6 +81,14 @@ def insert_rows_orders(conn: Cursor, rowsOrder: List[Dict[str, Any]]) -> None:
 def delete_all(conn: Cursor):
     cursor = conn.cursor()
     sql_instruction = 'DELETE FROM orders;'
+    cursor.execute(sql_instruction)
+
+
+@connection_db
+def delete_range(conn: Cursor, min: int, max: int):
+    cursor = conn.cursor()
+    to_delete = tuple(i for i in range(min, max + 1))
+    sql_instruction = f'DELETE FROM orders WHERE ID IN {to_delete}'
     cursor.execute(sql_instruction)
 
 
