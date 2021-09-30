@@ -10,7 +10,7 @@ class RowOrder():
 
     def __init__(self, reference: str, color: str, size: str, quantity: int, line: str, date: datetime, month: str, year: int,
                  customer: str, request: str, agent: str, price: int, cost: int, collection: str, status: str, id: int = None) -> None:
-        self.reference: str = reference
+        self.reference: str = str(reference)
         self.color: str = color
         self.size: str = size
         self.quantity: int = int(quantity)

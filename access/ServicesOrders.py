@@ -29,7 +29,7 @@ class ServicesAddNewOrders:
         final_data = self.generate_data(pd.DataFrame(prices), last_id)
         df = pd.DataFrame(final_data)
         df['ESTADO'] = df['ESTADO'].apply(self.change_status)
-        ServicesPandasOrders(df)
+        ServicesAddPandasOrders(df)
         save_file(df)
 
     def change_status(self, x):
@@ -68,7 +68,7 @@ class ServicesAddNewOrders:
         return list_total
 
 
-class ServicesPandasOrders():
+class ServicesAddPandasOrders():
     def __init__(self, df) -> None:
         init_file()
         self.init_process(df)
@@ -106,11 +106,20 @@ class ServicesPandasOrders():
         insert_rows_orders(list_rows)
 
 
-class ServicesAddFileOrders(ServicesPandasOrders):
+class ServicesAddFileOrders(ServicesAddPandasOrders):
     def __init__(self, nane_file) -> None:
         df = pd.read_excel(nane_file,
                            sheet_name='BASE', dtype={'PEDIDO #': str, 'TALLAS': str})
 
+        super().__init__(df)
+
+
+class ServicesAddFileOrders(ServicesAddPandasOrders):
+    def __init__(self, nane_file) -> None:
+        df = pd.read_excel(nane_file, dtype={'PEDIDO #': str, 'TALLAS': str})
+        min_value = min(df['ID'])
+        max_value = max(df['ID'])
+        delete_range(min_value=min_value, max_value=max_value)
         super().__init__(df)
 
 
