@@ -21,7 +21,7 @@ class RowOrder():
         self.request: str = request
         self.agent: str = agent
         self.month: str = month
-        self.year: int = year
+        self.year: int = int(year)
         self.collection: str = collection
         self.status: str = status
         if id:

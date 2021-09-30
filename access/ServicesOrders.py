@@ -11,16 +11,17 @@ COLUMNS = ['ID', 'FECHA', 'MES', 'AÑO', 'CLIENTE', 'PEDIDO #',
            'REFERENCIA', 'COLOR', 'TALLAS', 'CANTIDAD', 'PRECIO UND',
            'PRECIO TOTAL', 'LINEA', 'MARCA', 'COLECCIÓN', 'VENDEDOR',
            'COSTO', 'COSTO TOTAL', 'ESTADO']
+PATH_NEW_ORDERS = './files/'
 
 
 class ServicesAddNewOrders:
-    PATH = './files/'
-
     def __init__(self):
+        last_id = last_id_orders()
         prices = self.generate_prices()
-        final_data = self.generate_data(pd.DataFrame(prices))
+        final_data = self.generate_data(pd.DataFrame(prices), last_id)
         df = pd.DataFrame(final_data)
         df['ESTADO'] = df['ESTADO'].apply(self.change_status)
+        ServicesPandasOrders(df)
         self.save_file(df)
 
     def change_status(self, x):
@@ -39,8 +40,8 @@ class ServicesAddNewOrders:
         prices = prices.data
         return prices
 
-    def generate_data(self, prices):
-        files = os.listdir(self.PATH)
+    def generate_data(self, prices, last_id):
+        files = os.listdir(PATH_NEW_ORDERS)
         files_order = {}
         extract = re.compile('([0-9]+).*')
         for file in files:
@@ -57,7 +58,8 @@ class ServicesAddNewOrders:
         for i in range(len(files_order)):
             Order.request += 1
             print(files_order[i])
-            data = Order(self.PATH + files_order[i], prices)
+            data = Order(PATH_NEW_ORDERS + files_order[i], prices, last_id)
+            last_id = data.last_id
             list_total.extend(data.data)
         return list_total
 

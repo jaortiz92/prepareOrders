@@ -7,7 +7,8 @@ PATH = './files/'
 def run():
     # delete_all()
     # ServicesAddFileOrders('PEDIDOS-RECOPIILACION DE PEDIDOS 2019 A HOY.xls')
-    ServicesReadOrders('2021-09-07')
+    # ServicesReadOrders('2021-09-07')
+    ServicesAddNewOrders()
 
 
 if __name__ == '__main__':

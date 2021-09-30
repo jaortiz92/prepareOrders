@@ -1,3 +1,4 @@
+from access.controller import last_id_orders
 import pandas as pd
 import re
 from typing import List, Any, Callable, Dict
@@ -8,9 +9,10 @@ from model.RowOrder import RowOrder
 class Order:
     request: int = 0
 
-    def __init__(self, file: str, prices) -> None:
+    def __init__(self, file: str, prices, last_id) -> None:
         self.file: str = file
         self.prices = prices
+        self.last_id = last_id
         self.request_str()
         self.header()
         self.data()
@@ -64,6 +66,7 @@ class Order:
         self.data = self.select_data(df)
 
     def select_data(self, df) -> List[RowOrder]:
+        RowOrder.id = self.last_id
         start: int = 2
         end: int = df.shape[1] - 2
 
@@ -110,6 +113,7 @@ class Order:
                         status=status
                     )
                     list_rows.append(row_order.row())
+        self.last_id = RowOrder.id
         return list_rows
 
 
