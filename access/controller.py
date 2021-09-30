@@ -85,9 +85,9 @@ def delete_all(conn: Cursor):
 
 
 @connection_db
-def delete_range(conn: Cursor, min: int, max: int):
+def delete_range(conn: Cursor, min_value: int, max_value: int):
     cursor = conn.cursor()
-    to_delete = tuple(i for i in range(min, max + 1))
+    to_delete = tuple(i for i in range(min_value, max_value + 1))
     sql_instruction = f'DELETE FROM orders WHERE ID IN {to_delete}'
     cursor.execute(sql_instruction)
 
