@@ -106,7 +106,7 @@ class ServicesAddPandasOrders():
         insert_rows_orders(list_rows)
 
 
-class ServicesAddFileOrders(ServicesAddPandasOrders):
+class ServicesAddFileOrdersOrigin(ServicesAddPandasOrders):
     def __init__(self, nane_file) -> None:
         df = pd.read_excel(nane_file,
                            sheet_name='BASE', dtype={'PEDIDO #': str, 'TALLAS': str})
