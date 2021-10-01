@@ -128,6 +128,10 @@ class ServicesReadOrders():
     def __init__(self, date=None) -> None:
         self.init_process(date)
 
-    def init_process(self, date):
+    def init_process(self, date) -> None:
         self.df = pd.DataFrame(read_all_orders(date), columns=COLUMNS)
         save_file(self.df)
+
+class ServicesDeleteRange():
+    def __init__(self, min_value, max_value) -> None:
+        delete_range(min_value=min_value, max_value=max_value)

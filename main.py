@@ -1,5 +1,6 @@
-from access.ServicesOrders import *
+from access.ServicesOrders import ServicesAddFileOrdersOrigin
 from access.controller import *
+from view.ViewMain import ViewMain
 
 PATH = './files/'
 
@@ -7,10 +8,7 @@ PATH = './files/'
 def run():
     # delete_all()
     # ServicesAddFileOrdersOrigin('PEDIDOS-RECOPIILACION DE PEDIDOS 2019 A HOY.xls')
-    # ServicesReadOrders('2021-09-07')
-    # ServicesAddNewOrders()
-    # ServicesReadOrders()
-    ServicesAddFileOrders('Ordenes.xlsx')
+    ViewMain()
 
 
 if __name__ == '__main__':
