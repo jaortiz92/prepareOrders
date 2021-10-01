@@ -6,3 +6,4 @@ files/*
 *.csv
 *.pyc
 *.db
+*.zip

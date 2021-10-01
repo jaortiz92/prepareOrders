@@ -75,11 +75,12 @@ class ServicesAddPandasOrders():
 
     def init_process(self, df) -> None:
         list_rows = []
-
         for i in range(df.shape[0]):
 
             if isinstance(df['FECHA'][i], pd.Timestamp):
                 date = df['FECHA'][i].strftime('%Y-%m-%d %X')
+            elif isinstance(df['FECHA'][i], str):
+                date = df['FECHA'][i]
             else:
                 date = ''
 
@@ -109,14 +110,14 @@ class ServicesAddPandasOrders():
 class ServicesAddFileOrdersOrigin(ServicesAddPandasOrders):
     def __init__(self, nane_file) -> None:
         df = pd.read_excel(nane_file,
-                           sheet_name='BASE', dtype={'PEDIDO #': str, 'TALLAS': str})
+                           sheet_name='BASE', dtype={'PEDIDO #': str, 'TALLAS': str,  'COLOR': str})
 
         super().__init__(df)
 
 
 class ServicesAddFileOrders(ServicesAddPandasOrders):
     def __init__(self, nane_file) -> None:
-        df = pd.read_excel(nane_file, dtype={'PEDIDO #': str, 'TALLAS': str})
+        df = pd.read_excel(nane_file, dtype={'PEDIDO #': str, 'TALLAS': str, 'COLOR': str})
         min_value = min(df['ID'])
         max_value = max(df['ID'])
         delete_range(min_value=min_value, max_value=max_value)
