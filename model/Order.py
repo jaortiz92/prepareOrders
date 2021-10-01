@@ -27,8 +27,11 @@ class Order:
         df_header = pd.read_excel(
             self.file, dtype={'COLOR': str, 'REFERENCIA': str}).iloc[:4]
         i = 17
-        while not isinstance(df_header.iloc[1, i], datetime):
-            i += 1
+        try:
+            while not isinstance(df_header.iloc[1, i], datetime):
+                i += 1
+        except:
+            print('Error con la fecha en el archivo {}'.format(self.file))
 
         try:
             self.date: datetime = df_header.iloc[1, i]
@@ -45,7 +48,7 @@ class Order:
         try:
             self.agent: str = df_header.iloc[0, i].upper()
         except:
-            print('Error con nombre de venta en el archivo {}'.format(self.file))
+            print('Error con nombre del vendedor en el archivo {}'.format(self.file))
 
     def data(self):
         df = pd.read_excel(self.file, header=5, dtype={

@@ -4,8 +4,8 @@ class ControlView:
 
     def input_number(self, message: str) -> int:
         flag = False
-        number: str = input(message)
         while (not flag):
+            number: str = input(message)
             flag = str(number).isnumeric()
             if flag:
                 number: int = int(number)

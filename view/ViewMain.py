@@ -52,7 +52,7 @@ class ViewMain():
             if selection == 1:
                 ServicesReadOrders()
             elif selection == 2:
-                date = self.control_view.input_number('Ingrese fecha (2021/12/31): ')
+                date = self.control_view.input_date('Ingrese fecha (2021-12-31): ')
                 ServicesReadOrders(date)
             elif selection == 3:
                 pass
