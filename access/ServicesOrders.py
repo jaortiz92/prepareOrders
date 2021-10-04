@@ -1,3 +1,4 @@
+import pdb
 import pandas as pd
 import numpy as np
 from model.Order import Order
@@ -12,10 +13,12 @@ COLUMNS = ['ID', 'FECHA', 'MES', 'AÑO', 'CLIENTE', 'PEDIDO #',
            'PRECIO TOTAL', 'LINEA', 'MARCA', 'COLECCIÓN', 'VENDEDOR',
            'COSTO', 'COSTO TOTAL', 'ESTADO']
 PATH_NEW_ORDERS = './files/'
+NAME_FILE_ORDERS = 'Ordenes.xlsx'
+NAME_FILE_QUERIES = 'Consulta.xlsx'
 
 
-def save_file(data: pd.DataFrame):
-    writer = pd.ExcelWriter('Ordenes.xlsx',
+def save_file(data: pd.DataFrame, name_file):
+    writer = pd.ExcelWriter(name_file,
                             datetime_format='dd-mm-yy')
     data.to_excel(writer, index=False, sheet_name='Data')
     writer.save()
@@ -30,7 +33,7 @@ class ServicesAddNewOrders:
         df = pd.DataFrame(final_data)
         df['ESTADO'] = df['ESTADO'].apply(self.change_status)
         ServicesAddPandasOrders(df)
-        save_file(df)
+        save_file(df, NAME_FILE_ORDERS)
 
     def change_status(self, x):
         result = x
@@ -117,7 +120,8 @@ class ServicesAddFileOrdersOrigin(ServicesAddPandasOrders):
 
 class ServicesAddFileOrders(ServicesAddPandasOrders):
     def __init__(self, nane_file) -> None:
-        df = pd.read_excel(nane_file, dtype={'PEDIDO #': str, 'TALLAS': str, 'COLOR': str})
+        df = pd.read_excel(nane_file, dtype={
+                           'PEDIDO #': str, 'TALLAS': str, 'COLOR': str})
         min_value = min(df['ID'])
         max_value = max(df['ID'])
         delete_range(min_value=min_value, max_value=max_value)
@@ -131,8 +135,24 @@ class ServicesReadOrders():
 
     def init_process(self, date) -> None:
         self.df = pd.DataFrame(read_all_orders(date), columns=COLUMNS)
-        save_file(self.df)
+        save_file(self.df, NAME_FILE_ORDERS)
+
 
 class ServicesDeleteRange():
     def __init__(self, min_value, max_value) -> None:
         delete_range(min_value=min_value, max_value=max_value)
+
+
+class ServicesReadPivot():
+
+    def __init__(self, date=None) -> None:
+        self.init_process(date)
+
+    def init_process(self, date) -> None:
+        df = pd.DataFrame(read_all_orders(date), columns=COLUMNS)
+        df = pd.pivot_table(df, values=['CANTIDAD'], index=[
+            'FECHA', 'CLIENTE', 'REFERENCIA', 'COLOR'], columns=['TALLAS'], aggfunc=sum)
+        df = df.reset_index()
+        df['TOTAL'] = df.sum(axis=1)
+        # pdb.set_trace()
+        save_file(df, NAME_FILE_QUERIES)
