@@ -5,6 +5,7 @@ from model.Order import Order
 from model.RowOrder import RowOrder
 from model.JoinPrices import JoinPrices
 from access.controller import *
+from access.utils import *
 import os
 import re
 
@@ -15,14 +16,6 @@ COLUMNS = ['ID', 'FECHA', 'MES', 'AÑO', 'CLIENTE', 'PEDIDO #',
 PATH_NEW_ORDERS = './files/'
 NAME_FILE_ORDERS = 'Ordenes.xlsx'
 NAME_FILE_QUERIES = 'Consulta.xlsx'
-
-
-def save_file(data: pd.DataFrame, name_file):
-    writer = pd.ExcelWriter(name_file,
-                            datetime_format='dd-mm-yy')
-    data.to_excel(writer, index=False, sheet_name='Data')
-    writer.save()
-    writer = None
 
 
 class ServicesAddNewOrders:
@@ -150,9 +143,14 @@ class ServicesReadPivot():
 
     def init_process(self, date) -> None:
         df = pd.DataFrame(read_all_orders(date), columns=COLUMNS)
-        df = pd.pivot_table(df, values=['CANTIDAD'], index=[
-            'FECHA', 'CLIENTE', 'REFERENCIA', 'COLOR'], columns=['TALLAS'], aggfunc=sum)
-        df = df.reset_index()
-        df['TOTAL'] = df.sum(axis=1)
         # pdb.set_trace()
+        df = pd.pivot_table(df, values=['CANTIDAD'], index=['PEDIDO #',
+                                                            'FECHA', 'CLIENTE', 'REFERENCIA', 'COLOR'], columns=['TALLAS'], aggfunc=sum)
+        df.columns = df.columns.droplevel()
+        list_sizes = sort_sizes(df.columns)
+        df = df[list_sizes]
+        df = df.reset_index()
+        df = df.sort_values(
+            ['PEDIDO #', 'FECHA', 'CLIENTE', 'REFERENCIA', 'COLOR'])
+        df['TOTAL'] = df.sum(axis=1)
         save_file(df, NAME_FILE_QUERIES)
