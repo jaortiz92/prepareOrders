@@ -20,4 +20,8 @@ from orders import views as orders_views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('orders/add_order/', orders_views.add_order.as_view(), name='add_order'),
+    path('orders/products/', orders_views.oders_products.as_view(),
+         name='oders_products'),
+    path('orders/add_files/', orders_views.add_files.as_view(),
+         name='add_files'),
 ]
