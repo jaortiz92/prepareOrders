@@ -11,6 +11,13 @@ from orders.ServicesOrders import *
 # Create your views here.
 
 
+class panel(View):
+    template_name = 'orders/panel.html'
+
+    def get(self, request):
+        return render(request, self.template_name)
+
+
 class add_order(View):
     template_name = 'orders/add_order.html'
 
@@ -34,15 +41,22 @@ class oders_products(ListView):
     template_name = 'orders/orders_products.html'
 
 
+class orders(ListView):
+    model = Order
+    template_name = 'orders/orders.html'
+
+
 class add_files(View):
 
-    template_name = 'orders/max.html'
+    template_name = 'orders/add_files.html'
 
     def get(self, request):
         data = ServicesAddNewOrders().data
+        list_orders = []
 
         for order in data:
             order_created = Order.objects.create(**order['order'])
+            list_orders.append(order_created)
             list_order_product = []
             for order_product in order['productsOrder']:
                 product_order = ProductOrder(
@@ -50,4 +64,8 @@ class add_files(View):
                 list_order_product.append(product_order)
             ProductOrder.objects.bulk_create(list_order_product)
 
-        return HttpResponse('ok')
+        data = {
+            'orders': list_orders
+        }
+
+        return render(request, self.template_name, data)

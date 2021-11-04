@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block head_content %}
+<title>Orders productos</title>
+{% endblock %}
+
+
+{% block container %}
+
+
+<div>
+    <div class="tables-capratex">
+        <table>
+            <thead>
+                <th>Numero de Orden</th>
+                <th>Fecha</th>
+                <th>Archivo</th>
+                <th>Cliente</th>
+                <th>Vendedor</th>
+            </thead>
+            <tbody>
+                {% for order in object_list %}
+                <tr>
+                    <td>{{order.id_order}}</td>
+                    <td accion="cleanDate(order.date)">{{order.date}} {{str}}</td>
+                    <td>{{order.file_name }}</td>
+                    <td>{{order.customer}}</td>
+                    <td>{{order.agent}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <button class="btn btn-primary btn-block mt-5" onclick="alt()">Boton de pruebas</button>
+</div>
+
+<script>
+    function alt() {
+        alert('Mensaje')
+    }
+    function cleanDate(date) {
+        str = String(date).substr(0, 10)
+        return str
+    }
+</script>
+
+
+{% endblock %}
