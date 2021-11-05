@@ -25,7 +25,10 @@ urlpatterns = [
          name='oders_products'),
     path('orders/orders/', orders_views.orders.as_view(),
          name='orders'),
+    path('orders/orders/detail_order/<int:id_order>', orders_views.filterForOrder.as_view(),
+         name='orders'),
     path('orders/add_files/', orders_views.add_files.as_view(),
          name='add_files'),
+    
 
 ]

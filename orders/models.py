@@ -32,7 +32,7 @@ class Order(models.Model):
         return row
 
     def __str__(self) -> str:
-        return self.id_order
+        return str(self.id_order)
 
 
 class ProductOrder(models.Model):
@@ -71,7 +71,7 @@ class ProductOrder(models.Model):
         return row
 
     def __str__(self) -> str:
-        return self.reference
+        return str(self.reference)
 
     class Meta:
         db_table = 'products_order'

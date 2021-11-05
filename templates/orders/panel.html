@@ -20,7 +20,12 @@
             <button class="btn btn-primary btn-block mt-5" type="submit"> Agregar Orden
                 Manualmente</button>
         </form>
-
+        <form action="{% url 'oders_products' %}">
+            <button class="btn btn-primary btn-block mt-5" type="submit"> Ver productos</button>
+        </form>
+        <form action="{% url 'orders' %}">
+            <button class="btn btn-primary btn-block mt-5" type="submit"> Ver Ordenes</button>
+        </form>
     </div>
 
 

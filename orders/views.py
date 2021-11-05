@@ -1,7 +1,7 @@
 from re import template
 import typing
 from django.http.response import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from django.views import View
 from django.views.generic import ListView
 from orders.models import *
@@ -68,4 +68,16 @@ class add_files(View):
             'orders': list_orders
         }
 
+        return render(request, self.template_name, data)
+
+class filterForOrder(View):
+    template_name = 'orders/detail_order.html'
+    def get(self, request, **kwars):
+        query = ProductOrder.objects.filter(id_order_id = kwars['id_order'])
+        order = Order.objects.get(id_order = kwars['id_order'])
+
+        data = {
+            'orders' : [order],
+            'products_order' : query
+        }
         return render(request, self.template_name, data)

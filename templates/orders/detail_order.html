@@ -7,6 +7,31 @@
 {% block container %}
 
 <div>
+    <div class="tables-capratex">
+        <table>
+            <thead>
+                <th>Numero de Orden</th>
+                <th>Fecha</th>
+                <th>Archivo</th>
+                <th>Cliente</th>
+                <th>Vendedor</th>
+            </thead>
+            <tbody>
+                {% for order in orders %}
+                <tr>
+                    <td>{{order.id_order}}</td>
+                    <td>{{order.date}}</td>
+                    <td>{{order.file_name}}</td>
+                    <td>{{order.customer}}</td>
+                    <td>{{order.agent}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div>
     <table>
         <thead>
             <th>ID</th>
@@ -25,7 +50,7 @@
             <th>Estado</th>
         </thead>
         <tbody>
-            {% for product in object_list %}
+            {% for product in products_order %}
             <tr>
                 <td>{{product.id_product_order}}</td>
                 <td>{{product.id_order_id}}</td>

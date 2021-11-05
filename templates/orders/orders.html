@@ -16,29 +16,39 @@
                 <th>Archivo</th>
                 <th>Cliente</th>
                 <th>Vendedor</th>
+                <th>Detalle</th>
             </thead>
             <tbody>
                 {% for order in object_list %}
                 <tr>
                     <td>{{order.id_order}}</td>
-                    <td accion="cleanDate(order.date)">{{order.date}} {{str}}</td>
-                    <td>{{order.file_name }}</td>
+                    <td>{{order.date}}</td>
+                    <td>{{order.file_name}}</td>
                     <td>{{order.customer}}</td>
                     <td>{{order.agent}}</td>
+                    <td><a class="btn btn-primary btn-block" href="detail_order/{{order.id_order}}">Consultar</a></td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
     </div>
-    <button class="btn btn-primary btn-block mt-5" onclick="alt()">Boton de pruebas</button>
+    <button class="btn btn-primary btn-block mt-5" onclick="alt(1)">Boton de pruebas</button>
 </div>
 
 <script>
-    function alt() {
+    
+    var data = {object_list}
+    alert(typeof('a'))
+
+
+    function alt(object_list) {
         alert('Mensaje')
+        alert(typeof object_list)
     }
+
     function cleanDate(date) {
         str = String(date).substr(0, 10)
+        document.getElementById("date").innerHTML = str
         return str
     }
 </script>
