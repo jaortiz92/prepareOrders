@@ -37,9 +37,9 @@ class ServicesAddNewOrders:
 
         list_total = []
 
-        for i in range(len(files_order)):
-            print(files_order[i])
-            data = JoinOrder(PATH_NEW_ORDERS, files_order[i], prices)
+        for file in files_order.values():
+            print(file)
+            data = JoinOrder(PATH_NEW_ORDERS, file, prices)
             list_total.append(data.data)
         return list_total
 
