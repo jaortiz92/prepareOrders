@@ -8,37 +8,14 @@
 
 
 <div>
-    <div class="tables-capratex">
-        <table>
-            <thead>
-                <th>Numero de Orden</th>
-                <th>Fecha</th>
-                <th>Archivo</th>
-                <th>Cliente</th>
-                <th>Vendedor</th>
-                <th>Detalle</th>
-            </thead>
-            <tbody>
-                {% for order in object_list %}
-                <tr>
-                    <td>{{order.id_order}}</td>
-                    <td>{{order.date}}</td>
-                    <td>{{order.file_name}}</td>
-                    <td>{{order.customer}}</td>
-                    <td>{{order.agent}}</td>
-                    <td><a class="btn btn-primary btn-block" href="detail_order/{{order.id_order}}">Consultar</a></td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
+    {% include "orders/table_orders.html" %}
     <button class="btn btn-primary btn-block mt-5" onclick="alt(1)">Boton de pruebas</button>
 </div>
 
 <script>
-    
-    var data = {object_list}
-    alert(typeof('a'))
+
+    var data = { object_list }
+    alert(typeof ('a'))
 
 
     function alt(object_list) {

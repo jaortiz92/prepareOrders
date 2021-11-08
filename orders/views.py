@@ -11,14 +11,14 @@ from orders.ServicesOrders import *
 # Create your views here.
 
 
-class panel(View):
+class Panel(View):
     template_name = 'orders/panel.html'
 
     def get(self, request):
         return render(request, self.template_name)
 
 
-class add_order(View):
+class AddOrderView(View):
     template_name = 'orders/add_order.html'
 
     def post(self, request):
@@ -36,17 +36,32 @@ class add_order(View):
         return render(request, self.template_name)
 
 
-class oders_products(ListView):
-    model = ProductOrder
+class ProductsOrderView(View):
     template_name = 'orders/orders_products.html'
 
+    def get(self, request):
+        query = ProductOrder.objects.all()
+        data = {
+            'products_order': query
+        }
 
-class orders(ListView):
+        return render(request, self.template_name, data)
+
+
+class OrdersView(ListView):
     model = Order
     template_name = 'orders/orders.html'
 
+    def get(self, request):
+        query = Order.objects.all()
+        data = {
+            'orders': query,
+            'to_edit': True
+        }
+        return render(request, self.template_name, data)
 
-class add_files(View):
+
+class AddFilesView(View):
 
     template_name = 'orders/add_files.html'
 
@@ -70,14 +85,16 @@ class add_files(View):
 
         return render(request, self.template_name, data)
 
-class filterForOrder(View):
+
+class FilterForOrderView(View):
     template_name = 'orders/detail_order.html'
+
     def get(self, request, **kwars):
-        query = ProductOrder.objects.filter(id_order_id = kwars['id_order'])
-        order = Order.objects.get(id_order = kwars['id_order'])
+        query = ProductOrder.objects.filter(id_order_id=kwars['id_order'])
+        order = Order.objects.get(id_order=kwars['id_order'])
 
         data = {
-            'orders' : [order],
-            'products_order' : query
+            'orders': [order],
+            'products_order': query
         }
         return render(request, self.template_name, data)
