@@ -48,7 +48,7 @@ class ProductsOrderView(View):
         return render(request, self.template_name, data)
 
 
-class OrdersView(ListView):
+class OrdersView(View):
     model = Order
     template_name = 'orders/orders.html'
 
@@ -59,6 +59,16 @@ class OrdersView(ListView):
             'to_edit': True
         }
         return render(request, self.template_name, data)
+
+
+class DeleteOrderView(View):
+    model = Order
+    template_name = 'orders'
+
+    def get(self, request, **kwars):
+        order = Order.objects.get(id_order=kwars['id_order'])
+        order.delete()
+        return redirect(to='order:orders')
 
 
 class AddFilesView(View):

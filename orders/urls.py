@@ -9,7 +9,9 @@ urlpatterns = [
     path('orders/', views.OrdersView.as_view(),
          name='orders'),
     path('orders/detail_order/<int:id_order>', views.FilterForOrderView.as_view(),
-         name='orders'),
+         name='detail_order'),
     path('add_files/', views.AddFilesView.as_view(),
          name='add_files'),
+    path('orders/delete_order/<int:id_order>', views.DeleteOrderView.as_view(),
+         name='delete_order')
 ]
