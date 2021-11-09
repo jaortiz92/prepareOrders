@@ -15,16 +15,39 @@
             {% for order in orders %}
             <tr>
                 <td>{{order.id_order}}</td>
-                <td>{{order.date}}</td>
+                <td>{{order.date|date:"d/m/Y"}}</td>
                 <td>{{order.file_name}}</td>
                 <td>{{order.customer}}</td>
                 <td>{{order.agent}}</td>
                 {%if to_edit%}
                 <td><a class="btn btn-primary btn-block" href="detail_order/{{order.id_order}}">Consultar</a></td>
-                <td><a class="btn btn-danger btn-block" href="delete_order/{{order.id_order}}">Eliminar</a></td>
+                <td><a class="btn btn-danger btn-block" href="#"
+                        onclick="deleteOrder({{order.id_order}}, '{{order.file_name}}')">Eliminar</a>
+                </td>
                 {%endif%}
             </tr>
             {% endfor %}
         </tbody>
     </table>
 </div>
+
+{% block js %}
+<script>
+    function deleteOrder(id, value) {
+        Swal.fire({
+            "title": "¿Estas seguro?",
+            "text": `Se eliminará la orden ${id} del archivo ${value}`,
+            "icon": "question",
+            "showCancelButton": true,
+            "cancelButtonText": "No, Cancelar",
+            "confirmButtonText": "Si, Eliminar",
+            "confirmButtonColor": "#c82333"
+        })
+            .then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = "delete_order/" + id
+                }
+            })
+    }
+</script>
+{% endblock %}

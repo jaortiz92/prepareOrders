@@ -1,12 +1,11 @@
-from re import template
-import typing
 from django.http.response import HttpResponse
 from django.shortcuts import redirect, render
 from django.views import View
-from django.views.generic import ListView
-from orders.models import *
+from django.contrib import messages
+
 from datetime import datetime
-import json
+
+from orders.models import *
 from orders.ServicesOrders import *
 # Create your views here.
 
@@ -66,8 +65,11 @@ class DeleteOrderView(View):
     template_name = 'orders'
 
     def get(self, request, **kwars):
-        order = Order.objects.get(id_order=kwars['id_order'])
+        id_order = kwars['id_order']
+        order = Order.objects.get(id_order=id_order)
         order.delete()
+        messages.success(
+            request, f'Se eliminó orden {id_order} del archivo {order.file_name}')
         return redirect(to='order:orders')
 
 
@@ -78,6 +80,7 @@ class AddFilesView(View):
     def get(self, request):
         data = ServicesAddNewOrders().data
         list_orders = []
+        counter = 0
 
         for order in data:
             order_created = Order.objects.create(**order['order'])
@@ -88,7 +91,8 @@ class AddFilesView(View):
                     **order_product, id_order=order_created)
                 list_order_product.append(product_order)
             ProductOrder.objects.bulk_create(list_order_product)
-
+            counter += 1
+        messages.success(request, f'Se agregaron {counter} archivos')
         data = {
             'orders': list_orders
         }
