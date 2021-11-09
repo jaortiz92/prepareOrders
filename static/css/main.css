@@ -5,8 +5,23 @@ html, body {
     font-family: 'Roboto', sans-serif;
 }
 
+
 h1, h2, h3 {
     color: rgb(0, 204, 255);
+}
+
+.name-button{
+    height: 225px; 
+    width: 100%; 
+    background-color: #2B5C6B;
+    display: grid;
+    align-items: center;
+    position: relative;
+}
+
+.menu-option-capratex {
+    text-align: center;
+    color: #A7DDEE;
 }
 
 #auth-container {
@@ -16,8 +31,8 @@ h1, h2, h3 {
 }
 
 #main-navbar {
-    background: #fff;
-    border-bottom: 1px solid rgba(0,0,0,.0975);
+    background-color: #0a7fd3;
+    border-bottom: 10px solid rgba(0,0,0,.0975);
 }
 
 .post-container {

@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block head_content %}
-<title>ADD order</title>
+<title>Ordenes</title>
 {% endblock %}
 
 
@@ -8,31 +8,132 @@
 
 
 <div>
-    <div class="options">
-        <div class="titles-capratex">
-            <h1>Administrados de ordenes</h1>
-        </div>
-        <form action="{% url 'order:add_files' %}">
-            <button class="btn btn-primary btn-block mt-5" type="submit"> Agregar Archivos</button>
-        </form>
-
-        <form action="{% url 'order:add_order' %}">
-            <button class="btn btn-primary btn-block mt-5" type="submit"> Agregar Orden
-                Manualmente</button>
-        </form>
-        <form action="{% url 'order:oders_products' %}">
-            <button class="btn btn-primary btn-block mt-5" type="submit"> Ver productos</button>
-        </form>
-        <form action="{% url 'order:orders' %}">
-            <button class="btn btn-primary btn-block mt-5" type="submit"> Ver Ordenes</button>
-        </form>
-        <form action="{% url 'order:dynamic_query' %}">
-            <button class="btn btn-primary btn-block mt-5" type="submit"> Consultas</button>
-        </form>
+    <div class="titles-capratex">
+        <h1>Administrados de ordenes</h1>
     </div>
 
+    <div class="album bg-light">
+        <div class="album bg-light">
+            <div class="container">
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="card mb-4 box-shadow">
+                            <a type="submit" href="{% url 'order:orders' %}" class="btn">
+                                <div class="name-button">
+                                    <h2 class="menu-option-capratex">
+                                        Ver Ordenes
+                                    </h2>
+                                </div>
+                            </a>
+                            <div class="card-body">
+                                <p class="card-text">This is a wider card with supporting text below as a natural
+                                    lead-in to additional content. This content is a little bit longer.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card mb-4 box-shadow">
+                            <a type="submit" href="{% url 'order:orders' %}" class="btn">
+                                <div class="name-button">
+                                    <h2 class="menu-option-capratex">
+                                        Ver Ordenes
+                                    </h2>
+                                </div>
+                            </a>
+                            <div class="card-body">
+                                <p class="card-text">This is a wider card with supporting text below as a natural
+                                    lead-in to additional content. This content is a little bit longer.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card mb-4 box-shadow">
+                            <a type="submit" href="{% url 'order:orders' %}" class="btn">
+                                <div class="name-button">
+                                    <h2 class="menu-option-capratex">
+                                        Ver Ordenes
+                                    </h2>
+                                </div>
+                            </a>
+                            <div class="card-body">
+                                <p class="card-text">This is a wider card with supporting text below as a natural
+                                    lead-in to additional content. This content is a little bit longer.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="card mb-4 box-shadow">
+                            <a type="submit" href="{% url 'order:orders' %}" class="btn">
+                                <div class="name-button">
+                                    <h2 class="menu-option-capratex">
+                                        Ver Ordenes
+                                    </h2>
+                                </div>
+                            </a>
+                            <div class="card-body">
+                                <p class="card-text">This is a wider card with supporting text below as a natural
+                                    lead-in to additional content. This content is a little bit longer.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card mb-4 box-shadow">
+                            <a type="submit" href="{% url 'order:orders' %}" class="btn">
+                                <div class="name-button">
+                                    <h2 class="menu-option-capratex">
+                                        Ver Ordenes
+                                    </h2>
+                                </div>
+                            </a>
+                            <div class="card-body">
+                                <p class="card-text">This is a wider card with supporting text below as a natural
+                                    lead-in to additional content. This content is a little bit longer.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card mb-4 box-shadow">
+                            <a type="submit" href="{% url 'order:orders' %}" class="btn">
+                                <div class="name-button">
+                                    <h2 class="menu-option-capratex">
+                                        Ver Ordenes
+                                    </h2>
+                                </div>
+                            </a>
+                            <div class="card-body">
+                                <p class="card-text">This is a wider card with supporting text below as a natural
+                                    lead-in to additional content. This content is a little bit longer.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <form action="{% url 'order:add_files' %}">
+                    <button class="btn btn-primary btn-block mt-5" type="submit"> Agregar Archivos</button>
+                </form>
+
+                <form action="{% url 'order:add_order' %}">
+                    <button class="btn btn-primary btn-block mt-5" type="submit"> Agregar Orden
+                        Manualmente</button>
+                </form>
+                <form action="{% url 'order:oders_products' %}">
+                    <button class="btn btn-primary btn-block mt-5" type="submit"> Ver productos</button>
+                </form>
+                <form action="{% url 'order:orders' %}">
+                    <button class="btn btn-primary btn-block mt-5" type="submit"> Ver Ordenes</button>
+                </form>
+                <form action="{% url 'order:dynamic_query' %}">
+                    <button class="btn btn-primary btn-block mt-5" type="submit"> Consultas</button>
+                </form>
+            </div>
+
+
+        </div>
+    </div>
 
 </div>
-
 
 {% endblock %}

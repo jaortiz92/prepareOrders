@@ -10,6 +10,13 @@ from orders.ServicesOrders import *
 # Create your views here.
 
 
+class Home(View):
+    template_name = 'home.html'
+
+    def get(self, request):
+        return render(request, self.template_name)
+
+
 class Panel(View):
     template_name = 'orders/panel.html'
 
