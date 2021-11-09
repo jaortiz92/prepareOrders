@@ -1,8 +1,8 @@
-#import pdb
+# import pdb
 import pandas as pd
 from orders.utils import JoinOrder
 from orders.utils import JoinPrices
-#from access.controller import *
+# from access.controller import *
 from orders.utils.utils import *
 import os
 import re
@@ -97,7 +97,7 @@ class ServicesAddFileOrders(ServicesAddPandasOrders):
                            'PEDIDO #': str, 'TALLAS': str, 'COLOR': str})
         min_value = min(df['ID'])
         max_value = max(df['ID'])
-        #delete_range(min_value=min_value, max_value=max_value)
+        # delete_range(min_value=min_value, max_value=max_value)
         super().__init__(df)
 
 
@@ -107,32 +107,44 @@ class ServicesReadOrders():
         self.init_process(date)
 
     def init_process(self, date) -> None:
-        #self.df = pd.DataFrame(read_all_orders(date), columns=COLUMNS)
-        #save_file(self.df, NAME_FILE_ORDERS)
+        # self.df = pd.DataFrame(read_all_orders(date), columns=COLUMNS)
+        # save_file(self.df, NAME_FILE_ORDERS)
         pass
 
 
 class ServicesDeleteRange():
     def __init__(self, min_value, max_value) -> None:
-        #delete_range(min_value=min_value, max_value=max_value)
+        # delete_range(min_value=min_value, max_value=max_value)
         pass
 
 
 class ServicesReadPivot():
 
-    def __init__(self, date=None) -> None:
-        self.init_process(date)
+    def __init__(self, orders, products) -> None:
+        self.df = pd.DataFrame(
+            products).astype(dtype={'id_order_id': str, 'reference': str, 'color': str})
+        self.init_process()
+        self.df_orders = pd.DataFrame(orders).astype(dtype={'id_order': str})
 
-    def init_process(self, date) -> None:
-        #df = pd.DataFrame(read_all_orders(date), columns=COLUMNS)
-        # pdb.set_trace()
-        df = pd.pivot_table(df, values=['CANTIDAD'], index=['PEDIDO #',
-                                                            'FECHA', 'CLIENTE', 'REFERENCIA', 'COLOR'], columns=['TALLAS'], aggfunc=sum)
+    def init_process(self) -> None:
+        df = pd.pivot_table(self.df, values=['quantity'], index=[
+                            'id_order_id', 'reference', 'color'], columns=['size'], aggfunc=sum)
+
         df.columns = df.columns.droplevel()
         list_sizes = sort_sizes(df.columns)
         df = df[list_sizes]
         df = df.reset_index()
         df = df.sort_values(
-            ['PEDIDO #', 'FECHA', 'CLIENTE', 'REFERENCIA', 'COLOR'])
-        df['TOTAL'] = df.sum(axis=1)
-        save_file(df, NAME_FILE_QUERIES)
+            ['id_order_id', 'reference', 'color'])
+        df = df.fillna(0)
+        df['total'] = df.iloc[:, 3:].sum(axis=1)
+        self.df = df
+
+    def data(self):
+        data = []
+        for order in pd.unique(self.df_orders['id_order']):
+            data.append({
+                'order': self.df_orders[self.df_orders['id_order'] == order].to_dict(orient='records'),
+                'products_order': self.df[self.df['id_order_id'] == order].to_dict(orient='records')
+            })
+        return data

@@ -1,0 +1,42 @@
+{% for register in values %}
+
+{% with orders=register.order %}
+{% include "orders/table_orders.html" %}
+{% endwith %}
+<div class="tables-capratex">
+    <table>
+        <thead>
+            <th>ID Pedido</th>
+            <th>Referencia</th>
+            <th>Color</th>
+            <th>RN</th>
+            <th>P</th>
+            <th>M</th>
+            <th>G</th>
+            <th>1</th>
+            <th>2</th>
+            <th>3</th>
+            <th>4</th>
+            <th>Total</th>
+        </thead>
+        <tbody>
+            {% for product in register.products_order %}
+            <tr>
+                <td>{{product.id_order_id}}</td>
+                <td>{{product.reference}}</td>
+                <td>{{product.color}}</td>
+                <td>{{product.RN}}</td>
+                <td>{{product.P}}</td>
+                <td>{{product.M}}</td>
+                <td>{{product.G}}</td>
+                <td>{{product.1}}</td>
+                <td>{{product.2}}</td>
+                <td>{{product.3}}</td>
+                <td>{{product.4}}</td>
+                <td>{{product.total}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endfor%}

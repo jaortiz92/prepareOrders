@@ -10,8 +10,9 @@ urlpatterns = [
          name='orders'),
     path('orders/detail_order/<int:id_order>', views.FilterForOrderView.as_view(),
          name='detail_order'),
+    path('orders/delete_order/<int:id_order>', views.DeleteOrderView.as_view(),
+         name='delete_order'),
     path('add_files/', views.AddFilesView.as_view(),
          name='add_files'),
-    path('orders/delete_order/<int:id_order>', views.DeleteOrderView.as_view(),
-         name='delete_order')
+    path('queries/dynamic/', views.DynamicQueryView.as_view(), name='dynamic_query'),
 ]
