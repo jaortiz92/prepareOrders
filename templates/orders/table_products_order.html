@@ -28,10 +28,10 @@
                 <td>{{product.line}}</td>
                 <td>{{product.brand}}</td>
                 <td>{{product.collection}}</td>
-                <td>{{product.price}}</td>
-                <td>{{product.total_price}}</td>
-                <td>{{product.cost}}</td>
-                <td>{{product.total_cost}}</td>
+                <td>{{product.price | floatformat:"0g"}}</td>
+                <td>{{product.total_price | floatformat:"0g"}}</td>
+                <td>{{product.cost | floatformat:"0g"}}</td>
+                <td>{{product.total_cost | floatformat:"0g"}}</td>
                 <td>{{product.status}}</td>
             </tr>
             {% endfor %}
