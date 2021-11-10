@@ -138,6 +138,12 @@ class ServicesReadPivot():
             ['id_order_id', 'reference', 'color'])
         df = df.fillna(0)
         df['total'] = df.iloc[:, 3:].sum(axis=1)
+        df.rename(columns={
+            'id_order_id': 'ID Pedido',
+            'reference': 'Referencia',
+            'color': 'Color',
+            'total': 'Total'
+        }, inplace=True)
         self.df = df
 
     def data(self):
@@ -145,6 +151,7 @@ class ServicesReadPivot():
         for order in pd.unique(self.df_orders['id_order']):
             data.append({
                 'order': self.df_orders[self.df_orders['id_order'] == order].to_dict(orient='records'),
-                'products_order': self.df[self.df['id_order_id'] == order].to_dict(orient='records')
+                'products_order': self.df[self.df['ID Pedido'] == order].to_dict(orient='records'),
+                'columns': self.df.columns
             })
         return data
