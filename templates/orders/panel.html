@@ -26,39 +26,39 @@
                                     </h2>
                                 </div>
                             </a>
-                            <div class="card-body">
-                                <p class="card-text">This is a wider card with supporting text below as a natural
-                                    lead-in to additional content. This content is a little bit longer.</p>
+                            <div class="card-body text-button">
+                                <p class="card-text">Puede ver todas las ordenes que se han registrado en el sistema.
+                                </p>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="card mb-4 box-shadow">
-                            <a type="submit" href="{% url 'order:orders' %}" class="btn">
+                            <a type="submit" href="{% url 'order:oders_products' %}" class="btn">
                                 <div class="name-button">
                                     <h2 class="menu-option-capratex">
-                                        Ver Ordenes
+                                        Ver Productos de las Ordenes
                                     </h2>
                                 </div>
                             </a>
-                            <div class="card-body">
-                                <p class="card-text">This is a wider card with supporting text below as a natural
-                                    lead-in to additional content. This content is a little bit longer.</p>
+                            <div class="card-body text-button">
+                                <p class="card-text">Puede ver todas los productos de todas las ordenes que se han
+                                    registrado en el sistema.
+                                </p>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="card mb-4 box-shadow">
-                            <a type="submit" href="{% url 'order:orders' %}" class="btn">
+                            <a type="submit" href="{% url 'order:dynamic_query' %}" class="btn">
                                 <div class="name-button">
                                     <h2 class="menu-option-capratex">
-                                        Ver Ordenes
+                                        Consultas
                                     </h2>
                                 </div>
                             </a>
-                            <div class="card-body">
-                                <p class="card-text">This is a wider card with supporting text below as a natural
-                                    lead-in to additional content. This content is a little bit longer.</p>
+                            <div class="card-body text-button">
+                                <p class="card-text">Ver todos los reportes relacionados con las ordenes</p>
                             </div>
                         </div>
                     </div>
@@ -72,7 +72,7 @@
                                     </h2>
                                 </div>
                             </a>
-                            <div class="card-body">
+                            <div class="card-body text-button">
                                 <p class="card-text">This is a wider card with supporting text below as a natural
                                     lead-in to additional content. This content is a little bit longer.</p>
                             </div>
@@ -80,60 +80,55 @@
                     </div>
                     <div class="col-md-4">
                         <div class="card mb-4 box-shadow">
-                            <a type="submit" href="{% url 'order:orders' %}" class="btn">
+                            <a type="submit" href="{% url 'order:add_order' %}" class="btn">
                                 <div class="name-button">
                                     <h2 class="menu-option-capratex">
-                                        Ver Ordenes
+                                        Agregar Orden Manualmente
                                     </h2>
                                 </div>
                             </a>
-                            <div class="card-body">
-                                <p class="card-text">This is a wider card with supporting text below as a natural
-                                    lead-in to additional content. This content is a little bit longer.</p>
+                            <div class="card-body text-button">
+                                <p class="card-text"></p>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="card mb-4 box-shadow">
-                            <a type="submit" href="{% url 'order:orders' %}" class="btn">
+                            <a onclick="confirmAdd()" href="#" class="btn">
                                 <div class="name-button">
                                     <h2 class="menu-option-capratex">
-                                        Ver Ordenes
+                                        Agregar Archivos
                                     </h2>
                                 </div>
                             </a>
-                            <div class="card-body">
-                                <p class="card-text">This is a wider card with supporting text below as a natural
-                                    lead-in to additional content. This content is a little bit longer.</p>
+                            <div class="card-body text-button">
+                                <p class="card-text">Ingrese ordenes, recuerde colocar todas las planillas en la carpeta
+                                    “files”</p>
                             </div>
                         </div>
                     </div>
                 </div>
-
-
-                <form action="{% url 'order:add_files' %}">
-                    <button class="btn btn-primary btn-block mt-5" type="submit"> Agregar Archivos</button>
-                </form>
-
-                <form action="{% url 'order:add_order' %}">
-                    <button class="btn btn-primary btn-block mt-5" type="submit"> Agregar Orden
-                        Manualmente</button>
-                </form>
-                <form action="{% url 'order:oders_products' %}">
-                    <button class="btn btn-primary btn-block mt-5" type="submit"> Ver productos</button>
-                </form>
-                <form action="{% url 'order:orders' %}">
-                    <button class="btn btn-primary btn-block mt-5" type="submit"> Ver Ordenes</button>
-                </form>
-                <form action="{% url 'order:dynamic_query' %}">
-                    <button class="btn btn-primary btn-block mt-5" type="submit"> Consultas</button>
-                </form>
             </div>
-
-
         </div>
     </div>
-
 </div>
 
+<script>
+    function confirmAdd() {
+        Swal.fire({
+            "title": "¿Estas seguro que quieres agregar nuevas ordenes?",
+            "text": "Se agregarán todos los archivos que se encuentren en la carpeta 'files'. ",
+            "icon": "question",
+            "showCancelButton": true,
+            "cancelButtonText": "No, Cancelar",
+            "confirmButtonText": "Si, Agregar",
+            "confirmButtonColor": "#c82333"
+        })
+            .then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = "{% url 'order:add_files' %}"
+                }
+            })
+    }
+</script>
 {% endblock %}

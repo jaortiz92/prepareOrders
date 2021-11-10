@@ -16,12 +16,26 @@ h1, h2, h3 {
     background-color: #2B5C6B;
     display: grid;
     align-items: center;
-    position: relative;
+    align-self: auto;
+    overflow:auto;
+    
+}
+
+.text-button{
+    height: 130px; 
+    width: 100%; 
+    overflow:auto;
+    text-overflow: ellipsis; 
+    
 }
 
 .menu-option-capratex {
     text-align: center;
+    margin-left: 10%;
+    margin-right: 10%;
+    width: 80%;
     color: #A7DDEE;
+    white-space: normal;
 }
 
 #auth-container {
