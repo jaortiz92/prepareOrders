@@ -13,8 +13,7 @@ from orders.ServicesOrders import *
 
 
 class DynamicQueryView(View):
-    template_name = 'orders/orders.html'
-    template_name = 'orders/query_dynamic.html'
+    template_name = 'orders/queries/query_dynamic.html'
 
     def get(self, request, **kwargs):
         orders = Order.objects.filter(date__gte=date(2021, 7, 29))
