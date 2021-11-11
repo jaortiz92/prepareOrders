@@ -7,7 +7,19 @@ html, body {
 
 
 h1, h2, h3 {
-    color: rgb(0, 204, 255);
+    color: #5ECAEB;
+}
+
+.titles-capratex{
+    text-align: center;
+}
+
+.titles-capratex-sub {
+    text-align: center;
+}
+
+.titles-capratex-sub h1{
+    color: #224B58;
 }
 
 .name-button{
@@ -21,14 +33,7 @@ h1, h2, h3 {
     
 }
 
-.text-button{
-    height: 130px; 
-    width: 100%; 
-    overflow:auto;
-    text-overflow: ellipsis; 
-    
-}
-
+/* Menus */
 .menu-option-capratex {
     text-align: center;
     margin-left: 10%;
@@ -37,6 +42,42 @@ h1, h2, h3 {
     color: #A7DDEE;
     white-space: normal;
 }
+
+.name-button-sub {
+    height: 225px; 
+    width: 100%; 
+    background-color: #AEE6FC;
+    display: grid;
+    align-items: center;
+    align-self: auto;
+    overflow:auto;
+    
+}
+
+
+.menu-option-capratex-sub {
+    text-align: center;
+    margin-left: 10%;
+    margin-right: 10%;
+    width: 80%;
+    color: #224B58;
+    white-space: normal;
+}
+
+.text-button{
+    height: 130px; 
+    width: 100%; 
+    overflow:auto;
+    text-overflow: ellipsis; 
+    
+}
+
+/* Froms */
+
+.form-capratex {
+    margin: 0% 25% 0% 25%;
+}
+
 
 #auth-container {
     background: #fff;
@@ -93,6 +134,7 @@ h1, h2, h3 {
     background-color: rgb(0, 174, 255);
 }
 
+/* Tables */
 table {     
     font-size: 14px;
     margin: 0px;

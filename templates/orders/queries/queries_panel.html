@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+{% block head_content %}
+<title>Menu Consultas</title>
+{% endblock %}
+
+
+{% block container %}
+
+<div>
+    <div class="titles-capratex-sub">
+        <h1>Consultas</h1>
+    </div>
+
+    <div class="album bg-light">
+        <div class="album bg-light">
+            <div class="container">
+
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="card mb-4 box-shadow">
+                            <a type="submit" href="{% url 'order:queries_filter' %}" class="btn">
+                                <div class="name-button-sub">
+                                    <h2 class="menu-option-capratex-sub">
+                                        Tabla Dinamicas
+                                    </h2>
+                                </div>
+                            </a>
+                            <div class="card-body text-button">
+                                <p class="card-text">Descripción
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card mb-4 box-shadow">
+                            <a type="submit" href="#" class="btn">
+                                <div class="name-button-sub">
+                                    <h2 class="menu-option-capratex-sub">
+                                        En desarrollo
+                                    </h2>
+                                </div>
+                            </a>
+                            <div class="card-body text-button">
+                                <p class="card-text">Descripción
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card mb-4 box-shadow">
+                            <a type="submit" href="#" class="btn">
+                                <div class="name-button-sub">
+                                    <h2 class="menu-option-capratex-sub">
+                                        En desarrollo
+                                    </h2>
+                                </div>
+                            </a>
+                            <div class="card-body text-button">
+                                <p class="card-text">Descripción</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card mb-4 box-shadow">
+                            <a type="submit" href="#" class="btn">
+                                <div class="name-button-sub">
+                                    <h2 class="menu-option-capratex-sub">
+                                        En desarrollo
+                                    </h2>
+                                </div>
+                            </a>
+                            <div class="card-body text-button">
+                                <p class="card-text">Descripción</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

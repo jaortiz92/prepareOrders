@@ -28,7 +28,8 @@
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     {% if messages %}
-    {%for m in messages%}
+    {%for m in messages %}
+    {% if m.tags == 'success'%}
     <script>
         Swal.fire({
             "title": "Proceso terminado",
@@ -36,6 +37,15 @@
             "icon": "success"
         })
     </script>
+    {% else %}
+    <script>
+        Swal.fire({
+            "title": "Error",
+            "text": "{{m}}",
+            "icon": "error"
+        })
+    </script>
+    {% endif %}
     {% endfor %}
     {% endif %}
     <footer>

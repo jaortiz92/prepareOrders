@@ -14,5 +14,7 @@ urlpatterns = [
          name='delete_order'),
     path('add_files/', views.AddFilesView.as_view(),
          name='add_files'),
+    path('queries/', views.QueriesPanel.as_view(), name='queries_panel'),
+    path('queries/filter', views.FilterView.as_view(), name='queries_filter'),
     path('queries/dynamic/', views.DynamicQueryView.as_view(), name='dynamic_query'),
 ]
