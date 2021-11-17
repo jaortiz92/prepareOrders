@@ -5,7 +5,10 @@
 
 
 {% block container %}
-<div>
+<div class="titles-capratex">
+    <h1>Filtros para consulta</h1>
+</div>
+<div class="div-form-capratex">
     <form accion="" method="POST">
         {% csrf_token %}
         <div class="form-group row form-capratex">
@@ -25,16 +28,18 @@
             <div class="col-sm-10">
                 <input class="form-control" type="text" placeholder="Vendedor" name="agent">
             </div>
-            <button class="btn btn-primary btn-block mt-5" type="submit">Generar
-                Consulta</button>
+            <div class="form-group form-capratex">
+                <button class="btn btn-primary btn-block mt-5" type="submit">Generar
+                    Consulta</button>
+            </div>
         </div>
-        
+
     </form>
-    
+
     <div class="form-group form-capratex">
         <a class="btn btn-primary btn-block mt-5" href="{% url 'order:queries_panel' %}">Regresar</a>
     </div>
-    
+
 </div>
 
 

@@ -36,20 +36,21 @@ class Order(models.Model):
 
 
 class ProductOrder(models.Model):
-    id_product_order = models.AutoField(primary_key=True)
-    id_order = models.ForeignKey(Order, on_delete=models.CASCADE)
-    reference = models.CharField(max_length=30, null=False)
-    color = models.CharField(max_length=30)
-    size = models.CharField(max_length=5)
-    quantity = models.IntegerField(null=False)
-    line = models.CharField(max_length=30)
-    brand = models.CharField(max_length=30)
-    collection = models.CharField(max_length=40)
-    status = models.CharField(max_length=150)
-    price = models.FloatField()
-    total_price = models.FloatField()
-    cost = models.FloatField()
-    total_cost = models.FloatField()
+    id_product_order = models.AutoField('ID', primary_key=True)
+    id_order = models.ForeignKey(
+        Order, on_delete=models.CASCADE, verbose_name='ID Pedido')
+    reference = models.CharField('Referencia', max_length=30, null=False)
+    color = models.CharField('Color', max_length=30)
+    size = models.CharField('Talla', max_length=5)
+    quantity = models.IntegerField('Cantidad', null=False)
+    line = models.CharField('Linea', max_length=30)
+    brand = models.CharField('Marca', max_length=30)
+    collection = models.CharField('Colección', max_length=40)
+    status = models.CharField('Estado', max_length=150)
+    price = models.FloatField('Precio Unidad')
+    total_price = models.FloatField('Precio Total')
+    cost = models.FloatField('Costo Unidad')
+    total_cost = models.FloatField('Costo Total')
 
     def row(self):
         row = {

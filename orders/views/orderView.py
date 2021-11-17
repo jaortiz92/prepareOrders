@@ -1,8 +1,9 @@
 from django.http.response import HttpResponse
 from django.shortcuts import redirect, render
 from django.views import View
-from django.contrib import messages
+from django.views.generic import TemplateView
 
+from django.contrib import messages
 from datetime import datetime
 
 from orders.models import *
@@ -10,18 +11,8 @@ from orders.ServicesOrders import *
 # Create your views here.
 
 
-class Home(View):
-    template_name = 'home.html'
-
-    def get(self, request):
-        return render(request, self.template_name)
-
-
-class Panel(View):
+class Panel(TemplateView):
     template_name = 'orders/panel.html'
-
-    def get(self, request):
-        return render(request, self.template_name)
 
 
 class AddOrderView(View):
@@ -40,18 +31,6 @@ class AddOrderView(View):
     def get(self, request):
         print(request)
         return render(request, self.template_name)
-
-
-class ProductsOrderView(View):
-    template_name = 'orders/orders_products.html'
-
-    def get(self, request):
-        query = ProductOrder.objects.all()
-        data = {
-            'products_order': query
-        }
-
-        return render(request, self.template_name, data)
 
 
 class OrdersView(View):
@@ -116,6 +95,7 @@ class FilterForOrderView(View):
 
         data = {
             'orders': [order],
-            'products_order': query
+            'products_order': query,
+            'to_edit': False
         }
         return render(request, self.template_name, data)

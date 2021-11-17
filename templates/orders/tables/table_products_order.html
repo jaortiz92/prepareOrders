@@ -15,6 +15,7 @@
             <th>Costo Unidad</th>
             <th>Costo Total</th>
             <th>Estado</th>
+            <th>Editar</th>
         </thead>
         <tbody>
             {% for product in products_order %}
@@ -33,6 +34,8 @@
                 <td>{{product.cost | floatformat:"0g"}}</td>
                 <td>{{product.total_cost | floatformat:"0g"}}</td>
                 <td>{{product.status}}</td>
+                <td><a class="btn btn-primary btn-block"
+                        href="{%url 'order:update_product_order' product.id_product_order%}">Editar</a></td>
             </tr>
             {% endfor %}
         </tbody>
