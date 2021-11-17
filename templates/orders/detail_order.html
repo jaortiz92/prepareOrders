@@ -6,13 +6,69 @@
 
 {% block container %}
 <div>
+    <button class="btn_is_edit btn btn-primary btn-block"> Editable </button>
+    <a class="btn btn-primary btn-block" href="{% url 'order:orders' %}">Regresar</a>
+</div>
+<div>
     {% include "orders/tables/table_orders.html" %}
     {% include "orders/tables/table_products_order.html" %}
 </div>
+{% endblock %}
 
-<div>
-    <a class="btn btn-primary btn-block mt-5" href="{% url 'order:orders' %}">Regresar</a>
-</div>
+{% block js_code %}
+<script>
+    $(document).ready(function () {
+        $(document).on("click", ".editable", function () {
+            var value = $(this).text();
+            console.log(value)
+            var type = $(this).data("type")
+            var input = "<input type='" + type + "' class='form-control' value='" + value + "'>"
+            $(this).html(input)
+            $(this).removeClass("editable")
+        });
+        $(document).on("blur", ".form-control", function () {
+            var value = $(this).val();
+            var td = $(this).parent("td");
+            $(this).remove();
+            td.html(value);
+            td.addClass("editable");
+            var field = td.data("field");
+            sendToServer(td.data("id"), value, field);
+        });
+
+        $(document).on("keypress", ".form-control", function (e) {
+            var key = e.which;
+            if (key == 13) {
+                var value = $(this).val();
+                var td = $(this).parent("td");
+                $(this).remove();
+                td.html(value);
+                td.addClass("editable");
+                var field = td.data("field");
+                sendToServer(td.data("id"), value, field);
+            }
+        });
+
+        function sendToServer(id, value, field) {
+            $.ajax({
+                url: "{% url 'order:update_product_order_api' %}",
+                type: "POST",
+                data: {
+                    id: id,
+                    field: field,
+                    value: value
+                },
+            })
+                .done(function (response) {
+                    console.log(response);
+                })
+                .fail(function () {
+                    console.log("Error Occured");
+                });
+
+        }
+    });
 
 
+</script>
 {% endblock %}

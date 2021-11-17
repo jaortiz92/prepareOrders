@@ -15,27 +15,32 @@
             <th>Costo Unidad</th>
             <th>Costo Total</th>
             <th>Estado</th>
-            <th>Editar</th>
+            <th class="to_edit">Editar</th>
+            <th class="to_edit" >Eliminar</th>
         </thead>
         <tbody>
             {% for product in products_order %}
             <tr>
                 <td>{{product.id_product_order}}</td>
                 <td>{{product.id_order_id}}</td>
-                <td>{{product.reference}}</td>
-                <td>{{product.color}}</td>
-                <td>{{product.size}}</td>
-                <td>{{product.quantity}}</td>
-                <td>{{product.line}}</td>
-                <td>{{product.brand}}</td>
-                <td>{{product.collection}}</td>
-                <td>{{product.price | floatformat:"0g"}}</td>
-                <td>{{product.total_price | floatformat:"0g"}}</td>
-                <td>{{product.cost | floatformat:"0g"}}</td>
-                <td>{{product.total_cost | floatformat:"0g"}}</td>
-                <td>{{product.status}}</td>
-                <td><a class="btn btn-primary btn-block"
+                <td class="editable" data-id="{{ product.id_product_order }}" data-type="text" data-field="reference">{{product.reference}}</td>
+                <td class="editable" data-id="{{ product.id_product_order }}" data-type="text" data-field="color">{{product.color}}</td>
+                <td class="editable" data-id="{{ product.id_product_order }}" data-type="text" data-field="size">{{product.size}}</td>
+                <td class="editable" data-id="{{ product.id_product_order }}" data-type="number" data-field="quantity">{{product.quantity}}</td>
+                <td class="editable" data-id="{{ product.id_product_order }}" data-type="text" data-field="line">{{product.line}}</td>
+                <td class="editable" data-id="{{ product.id_product_order }}" data-type="text" data-field="brand">{{product.brand}}</td>
+                <td class="editable" data-id="{{ product.id_product_order }}" data-type="text" data-field="collection">{{product.collection}}</td>
+                <td class="editable" data-id="{{ product.id_product_order }}" data-type="number" data-field="price">{{product.price | floatformat:"0g"}}</td>
+                <td class="editable" data-id="{{ product.id_product_order }}" data-type="number"
+                    data-field="total_price">{{product.total_price | floatformat:"0g"}}</td>
+                <td class="editable" data-id="{{ product.id_product_order }}" data-type="number" data-field="cost">{{product.cost | floatformat:"0g"}}</td>
+                <td class="editable" data-id="{{ product.id_product_order }}" data-type="number"
+                    data-field="total_cost">{{product.total_cost | floatformat:"0g"}}</td>
+                <td class="editable" data-id="{{ product.id_product_order }}" data-type="text" data-field="status">{{product.status}}</td>
+                <td class="to_edit" ><a class="btn btn-primary btn-block"
                         href="{%url 'order:update_product_order' product.id_product_order%}">Editar</a></td>
+                <td class="to_edit" ><a class="btn btn-danger btn-block"
+                        href="{%url 'order:delete_product_order' product.id_product_order%}">Eliminar</a></td>
             </tr>
             {% endfor %}
         </tbody>

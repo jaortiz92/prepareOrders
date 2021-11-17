@@ -20,6 +20,10 @@ urlpatterns = [
     path('products/', views.ProductsOrderView.as_view(), name='oders_products'),
     path('products/update_product_order/<int:id_product_order>',
          views.UpdateProductOrderView.as_view(), name='update_product_order'),
+    path('products/delete_product_order/<int:id_product_order>',
+         views.DeleteProductOrderView.as_view(), name='delete_product_order'),
+    path('products/update_product_order_api',
+         views.update_product_order_view_API, name='update_product_order_api'),
 
     # Queries
     path('queries/', views.QueriesPanel.as_view(), name='queries_panel'),

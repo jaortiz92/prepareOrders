@@ -7,6 +7,8 @@ from django.urls import reverse_lazy
 
 from datetime import datetime
 
+from django.views.generic.edit import DeleteView
+
 from orders.models import *
 from orders.ServicesOrders import *
 from orders.forms import ProductOrderFrom
@@ -36,3 +38,16 @@ class UpdateProductOrderView(UpdateView):
             'order:detail_order', kwargs={'id_order': self.object.id_order_id})
         messages.success(request, f'Se modificó producto con ID {self.object}')
         return super().post(request, *args, **kwargs)
+
+class DeleteProductOrderView(View):
+    model = ProductOrder
+
+    def get(self, request, **kwars):
+        id_product_order = kwars['id_product_order']
+        id_product_order = ProductOrder.objects.get(id_product_order=id_product_order)
+        id_product_order.delete()
+        success_url = reverse_lazy(
+            'order:detail_order', kwargs={'id_order': id_product_order.id_order_id})
+        messages.success(
+            request, f'Se eliminó producto {id_product_order}: {id_product_order.reference}')
+        return redirect(success_url)
