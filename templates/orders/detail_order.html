@@ -5,17 +5,22 @@
 
 
 {% block container %}
-<div>
-    <button class="btn_is_edit btn btn-primary btn-block"> Editable </button>
-    <a class="btn btn-primary btn-block" href="{% url 'order:orders' %}">Regresar</a>
-</div>
-<div>
-    {% include "orders/tables/table_orders.html" %}
-    {% include "orders/tables/table_products_order.html" %}
+<div id="is-edit">
+    <div>
+        <a class="btn btn-primary btn-block mt-5 " @click='showButton'><i class="fas fa-edit"></i> Editar</a>
+        <a class="btn btn-primary btn-block mt-5" href="{% url 'order:orders' %}">Regresar</a>
+    </div>
+    <div>
+        {% include "orders/tables/table_orders.html" %}
+        {% include "orders/tables/table_products_order.html" %}
+    </div>
 </div>
 {% endblock %}
 
+{% load static %}
 {% block js_code %}
+<script type="text/javascript" src="{% static 'vue/isEdit.js' %}"></script>
+
 <script>
     $(document).ready(function () {
         $(document).on("click", ".editable", function () {

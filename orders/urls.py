@@ -22,6 +22,7 @@ urlpatterns = [
          views.UpdateProductOrderView.as_view(), name='update_product_order'),
     path('products/delete_product_order/<int:id_product_order>',
          views.DeleteProductOrderView.as_view(), name='delete_product_order'),
+    # Products Order
     path('products/update_product_order_api',
          views.update_product_order_view_API, name='update_product_order_api'),
 

@@ -7,9 +7,15 @@
 {% block container %}
 
 
-<div>
+<div id='is-edit'>
     {% include "orders/tables/table_orders.html" %}
     <a class="btn btn-primary btn-block mt-5" href="{% url 'order:panel' %}">Regresar</a>
+    <a class="btn btn-primary btn-block mt-5 " @click='showButton'><i class="fas fa-edit"></i> Editar</a>
 </div>
 
+{% endblock %}
+
+{% load static %}
+{% block js_code %}
+<script type="text/javascript" src="{% static 'vue/isEdit.js' %}"></script>
 {% endblock %}

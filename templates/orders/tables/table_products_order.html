@@ -15,8 +15,8 @@
             <th>Costo Unidad</th>
             <th>Costo Total</th>
             <th>Estado</th>
-            <th class="to_edit">Editar</th>
-            <th class="to_edit" >Eliminar</th>
+            <th v-if="show">Editar</th>
+            <th v-if="show" >Eliminar</th>
         </thead>
         <tbody>
             {% for product in products_order %}
@@ -31,16 +31,14 @@
                 <td class="editable" data-id="{{ product.id_product_order }}" data-type="text" data-field="brand">{{product.brand}}</td>
                 <td class="editable" data-id="{{ product.id_product_order }}" data-type="text" data-field="collection">{{product.collection}}</td>
                 <td class="editable" data-id="{{ product.id_product_order }}" data-type="number" data-field="price">{{product.price | floatformat:"0g"}}</td>
-                <td class="editable" data-id="{{ product.id_product_order }}" data-type="number"
-                    data-field="total_price">{{product.total_price | floatformat:"0g"}}</td>
+                <td class="editable" data-id="{{ product.id_product_order }}" data-type="number"data-field="total_price">{{product.total_price | floatformat:"0g"}}</td>
                 <td class="editable" data-id="{{ product.id_product_order }}" data-type="number" data-field="cost">{{product.cost | floatformat:"0g"}}</td>
-                <td class="editable" data-id="{{ product.id_product_order }}" data-type="number"
-                    data-field="total_cost">{{product.total_cost | floatformat:"0g"}}</td>
+                <td class="editable" data-id="{{ product.id_product_order }}" data-type="number"data-field="total_cost">{{product.total_cost | floatformat:"0g"}}</td>
                 <td class="editable" data-id="{{ product.id_product_order }}" data-type="text" data-field="status">{{product.status}}</td>
-                <td class="to_edit" ><a class="btn btn-primary btn-block"
-                        href="{%url 'order:update_product_order' product.id_product_order%}">Editar</a></td>
-                <td class="to_edit" ><a class="btn btn-danger btn-block"
-                        href="{%url 'order:delete_product_order' product.id_product_order%}">Eliminar</a></td>
+                <td v-if="show" ><a class="btn btn-primary btn-block"
+                        href="{%url 'order:update_product_order' product.id_product_order%}"><i class="fas fa-edit"></i></a></td>
+                <td v-if="show" ><a class="btn btn-danger btn-block"
+                        href="{%url 'order:delete_product_order' product.id_product_order%}"><i class="far fa-trash-alt"></i></a></td>
             </tr>
             {% endfor %}
         </tbody>
