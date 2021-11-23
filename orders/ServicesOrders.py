@@ -30,15 +30,14 @@ class ServicesAddNewOrders:
     def generate_data(self, prices):
         files = os.listdir(PATH_NEW_ORDERS)
         files_order = {}
-        extract = re.compile('([0-9]+).*')
+        extract = re.compile('^([0-9]+).*')
         for file in files:
             file_match = extract.match(file)
-            files_order[int(file_match.group(1)) - 1] = file
-
+            if file_match:
+                files_order[int(file_match.group(1)) - 1] = file
         list_total = []
 
         for file in files_order.values():
-            print(file)
             data = JoinOrder(PATH_NEW_ORDERS, file, prices)
             list_total.append(data.data)
         return list_total

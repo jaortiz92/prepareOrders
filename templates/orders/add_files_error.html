@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block head_content %}
+<title>ADD order</title>
+{% endblock %}
+
+
+{% block container %}
+
+
+<div>
+    <div class="options">
+        <div class="titles-capratex">
+            <h2>Proceso sin completar</h2>
+        </div>
+        <div class="tables-capratex">
+            <table>
+                <thead>
+                    <th>Archivo</th>
+                    <th>Error</th>
+                </thead>
+                <tbody>
+                    {% for file in data %}
+                    {% for error in file.errors.hard %}
+                    <tr>
+                        <td>{{error.0}}</td>
+                        <td>{{error.1}}</td>
+                    </tr>
+                    {% endfor %}
+                    {% for error in file.errors.soft %}
+                    <tr>
+                        <td>{{error.0}}</td>
+                        <td>{{error.1}}</td>
+                    </tr>
+                    {% endfor %}
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+
+        <a class="btn btn-primary btn-block mt-5" href="{% url 'order:panel' %}">Regresar</a>
+    </div>
+
+
+</div>
+
+
+{% endblock %}

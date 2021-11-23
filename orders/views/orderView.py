@@ -62,12 +62,16 @@ class DeleteOrderView(View):
 class AddFilesView(View):
 
     template_name = 'orders/add_files.html'
+    template_error = 'orders/add_files_error.html'
 
     def get(self, request):
         data = ServicesAddNewOrders().data
         list_orders = []
+        for row in data:
+            if len(row['errors']['hard']) > 0:
+                messages.error(request, 'Error al generar las ordenes')
+                return render(request, self.template_error, {"data" : data})
         counter = 0
-
         for order in data:
             order_created = Order.objects.create(**order['order'])
             list_orders.append(order_created)

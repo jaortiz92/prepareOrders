@@ -9,6 +9,7 @@ class Order(models.Model):
     customer = models.CharField(max_length=100)
     file_name = models.CharField(max_length=100, unique=True)
     agent = models.CharField(max_length=100)
+    email = models.EmailField()
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
 
@@ -19,12 +20,12 @@ class Order(models.Model):
         ordering = ['id_order']
 
     def row(self):
-        print(self.date)
         row = {
             'id_order': self.id_order,
             'date': self.date.strftime('%Y-%m-%d'),
             'customer': self.customer,
             'agent': self.agent,
+            'email': self.email,
             'file_name': self.file_name,
             'created': self.created.strftime('%Y-%m-%d, %H:%M:%S'),
             'modified': self.modified.strftime('%Y-%m-%d, %H:%M:%S')

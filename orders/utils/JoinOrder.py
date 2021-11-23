@@ -1,53 +1,59 @@
 import pandas as pd
 import re
-from typing import List, Any, Callable, Dict
 from datetime import datetime
 
 
 class JoinOrder:
-
-    def __init__(self, PATH, file: str, prices) -> None:
+    
+    def __init__(self, PATH, file: str, prices):
+        self.file = file
+        self.errors = {
+            'hard':[],
+            'soft': []
+        }
         self.file: str = file
         self.filePATH = PATH + file
         self.prices = prices
         self.data = {
             'order': self.header(),
-            'productsOrder': self.body()
+            'productsOrder': self.body(),
+            'errors': self.errors
         }
 
     def header(self):
-        df_header = pd.read_excel(
-            self.filePATH, dtype={'COLOR': str, 'REFERENCIA': str}).iloc[:4]
+        df_header = pd.read_excel(self.filePATH).iloc[:4]
         i = 17
         try:
             while not isinstance(df_header.iloc[1, i], datetime):
                 i += 1
-        except:
-            print('Error con la fecha en el archivo {}'.format(self.file))
-
-        try:
             self.date: datetime = df_header.iloc[1, i]
             self.month: str = self.date.strftime('%b')
             self.year: int = self.date.year
         except:
-            print('Error con la fecha en el archivo {}'.format(self.file))
-
+            self.errors['hard'].append((self.file, 'Error con la fecha en el archivo.'))     
         try:
             self.customer: str = df_header.columns[4].upper()
         except:
-            print('Error con nombre de compañia en el archivo {}'.format(self.file))
-
+            self.errors['hard'].append((self.file, 'Error con nombre de compañia en el archivo.'))
+        try:
+            self.email: str = df_header.iloc[3, 4].upper()
+        except:
+            self.errors['hard'].append((self.file, 'Error con email del compañia en el archivo.'))
         try:
             self.agent: str = df_header.iloc[0, i].upper()
         except:
-            print('Error con nombre del vendedor en el archivo {}'.format(self.file))
-
-        return {
+            self.errors['hard'].append((self.file, 'Error con nombre del vendedor en el archivo.'))
+        if len(self.errors['hard']) > 0:
+            data = None
+        else: 
+            data = {
             'date': self.date,
             'customer': self.customer,
             'agent': self.agent,
-            'file_name': self.file
-        }
+            'file_name': self.file,
+            'email':self.email
+            }
+        return data
 
     def body(self):
         df = pd.read_excel(self.filePATH, header=5, dtype={
@@ -55,16 +61,16 @@ class JoinOrder:
         try:
             df_1 = pd.read_excel(self.filePATH, header=5, dtype={
                                  'Estado': str}).loc[:, 'Estado']
+            df = pd.concat([df, df_1], axis=1)
         except:
-            print('Columna Estado no encontrada en el archivo {}'.format(self.file))
-
-        df = pd.concat([df, df_1], axis=1)
+            df['Estado'] = ''
+            self.errors['soft'].append((self.file, 'Columna Estado no encontrada en el archivo {}'.format(self.file)))
+      
         # just keep correct values
         df = df[df['TOTAL'].apply(is_number)].reset_index(drop=True)
         # Fill nan values
         df['REFERENCIA'].fillna(method='ffill', inplace=True)
         df['COLOR'].fillna('SURTIDO', inplace=True)
-        print('Cantidad de filas', df.shape[0])
         return self.select_data(df)
 
     def select_data(self, df):
@@ -90,8 +96,8 @@ class JoinOrder:
                         collection = df_filter.iloc[-1, 4]
                         cost = df_filter.iloc[-1, 5]
                     except IndexError as e:
-                        print('\tReferencia: {} con talla {}, no se encontro el precio'.format(
-                            reference, size))
+                        self.errors['soft'].append((self.file , '\tReferencia: {} con talla {}, no se encontro el precio'.format(
+                            reference, size)))
                         price = 0
                         collection = ''
                         cost = 0
