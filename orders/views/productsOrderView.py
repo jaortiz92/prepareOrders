@@ -1,7 +1,7 @@
 from django.http.response import HttpResponse
 from django.shortcuts import redirect, render
 from django.views import View
-from django.views.generic import UpdateView
+from django.views.generic import UpdateView, ListView
 from django.contrib import messages
 from django.urls import reverse_lazy
 
@@ -14,17 +14,22 @@ from orders.ServicesOrders import *
 from orders.forms import ProductOrderFrom
 
 
-class ProductsOrderView(View):
+class ProductsOrderView(ListView):
     template_name = 'orders/orders_products.html'
+    paginate_by  = 100
+    queryset = ProductOrder.objects.all()
+    context_object_name = 'products_order'
+    def get_context_data(self, **kwargs: Any):
+        contex = super().get_context_data(**kwargs)
+        value_range = 5
+        value_range_max = contex['paginator'].num_pages
+        value_min = contex['page_obj'].number - value_range
+        value_max = contex['page_obj'].number + value_range
 
-    def get(self, request):
-        query = ProductOrder.objects.all()
-        data = {
-            'products_order': query
-        }
+        contex['limit'] = (value_min if value_max < value_range_max else value_range_max -  value_range * 2, value_max if value_min > 0 else value_range * 2)
+        return contex
 
-        return render(request, self.template_name, data)
-
+    
 
 class UpdateProductOrderView(UpdateView):
     template_name = 'orders/update_product_order.html'

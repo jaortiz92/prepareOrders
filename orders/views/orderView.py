@@ -41,7 +41,6 @@ class OrdersView(View):
         query = Order.objects.all()
         data = {
             'orders': query,
-            'to_edit': True
         }
         return render(request, self.template_name, data)
 

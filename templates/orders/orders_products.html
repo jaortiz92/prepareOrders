@@ -13,8 +13,10 @@
         <a class="btn btn-primary btn-block mt-5" href="{% url 'order:panel' %}">Regresar</a>
     </div>
 
+    {% include "paginate.html" %}
     {% include "orders/tables/table_products_order.html" %}
 </div>
+
 {% endblock %}
 
 {% load static %}
