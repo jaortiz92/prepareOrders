@@ -36,7 +36,7 @@ class JoinOrder:
         except:
             self.errors['hard'].append((self.file, 'Error con nombre de compañia en el archivo.'))
         try:
-            self.email: str = df_header.iloc[3, 4].upper()
+            self.email: str = df_header.iloc[3, 4].lower()
         except:
             self.errors['hard'].append((self.file, 'Error con email del compañia en el archivo.'))
         try:

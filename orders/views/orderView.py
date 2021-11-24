@@ -70,7 +70,7 @@ class AddFilesView(View):
         for row in data:
             if len(row['errors']['hard']) > 0:
                 messages.error(request, 'Error al generar las ordenes')
-                return render(request, self.template_error, {"data" : data})
+                return render(request, self.template_error, {'data' : data})
         counter = 0
         for order in data:
             order_created = Order.objects.create(**order['order'])
@@ -84,7 +84,9 @@ class AddFilesView(View):
             counter += 1
         messages.success(request, f'Se agregaron {counter} archivos')
         data = {
-            'orders': list_orders
+            'orders': list_orders,
+            'data' : data
+
         }
 
         return render(request, self.template_name, data)
