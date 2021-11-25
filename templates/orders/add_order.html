@@ -25,16 +25,13 @@
         <div class="from-group">
             <input class="form-control" type="text" placeholder="Vendedor" name="agent" required="true">
         </div>
-        <button class="btn btn-primary btn-block mt-5" type="submit">Agregar Orden</button>
+        <button class="btn btn-primary mt-5" type="submit">Agregar Orden</button>
+        <a class="btn btn-primary mt-5" href="{% url 'order:panel' %}">Regresar</a>
     </form>
 
     {% if success %}
     <p class="alert alert-success">{{success}}</p>
-    {% endif %}
-</div>
-
-<div>
-    <a class="btn btn-primary btn-block mt-5" href="{% url 'order:panel' %}">Regresar</a>
+    {% endif %} 
 </div>
 
 {% endblock %}

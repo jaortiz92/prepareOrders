@@ -1,7 +1,7 @@
 from django.http.response import HttpResponse
 from django.shortcuts import redirect, render
 from django.views import View
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, ListView
 
 from django.contrib import messages
 from datetime import datetime
@@ -33,16 +33,22 @@ class AddOrderView(View):
         return render(request, self.template_name)
 
 
-class OrdersView(View):
+class OrdersView(ListView):
     model = Order
     template_name = 'orders/orders.html'
+    paginate_by  = 10
+    queryset = Order.objects.all()
+    context_object_name = 'orders'
 
-    def get(self, request):
-        query = Order.objects.all()
-        data = {
-            'orders': query,
-        }
-        return render(request, self.template_name, data)
+    def get_context_data(self, **kwargs: Any):
+        contex = super().get_context_data(**kwargs)
+        value_range = 5
+        value_range_max = contex['paginator'].num_pages
+        value_min = contex['page_obj'].number - value_range
+        value_max = contex['page_obj'].number + value_range
+
+        contex['limit'] = (value_min if value_max < value_range_max else value_range_max -  value_range * 2, value_max if value_min > 0 else value_range * 2)
+        return contex
 
 
 class DeleteOrderView(View):

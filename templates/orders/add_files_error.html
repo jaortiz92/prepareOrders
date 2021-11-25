@@ -5,17 +5,14 @@
 
 
 {% block container %}
-
-
 <div>
     <div class="options">
         <div class="titles-capratex">
             <h2>Proceso sin completar</h2>
         </div>
         {% include "orders/tables/table_errors.html" %}
-        <a class="btn btn-primary btn-block mt-5" href="{% url 'order:panel' %}">Regresar</a>
+        <a class="btn btn-primary mt-3" href="{% url 'order:panel' %}">Regresar</a>
+        <a class="btn btn-primary mt-3" href="{% url 'order:add_files' %}">Volver a intentar</a>
     </div>
 </div>
-
-
 {% endblock %}

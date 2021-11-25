@@ -7,10 +7,10 @@
 {% block container %}
 <div id="is-edit">
     <div>
-        <a class="btn btn-primary btn-block mt-5 " @click='showButton'><i class="fas fa-edit"></i> Editar</a>
-        <a class="btn btn-primary btn-block mt-5" href="{% url 'order:orders' %}">Regresar</a>
+        <a class="btn btn-primary mt-5" href="{% url 'order:orders' %}">Regresar</a>
+        <a class="btn btn-primary mt-5 " @click='showButton'><i class="fas fa-edit"></i> Editar</a>
     </div>
-    <div>
+    <div class="mt-3">
         {% include "orders/tables/table_orders.html" %}
         {% include "orders/tables/table_products_order.html" %}
     </div>

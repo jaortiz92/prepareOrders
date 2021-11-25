@@ -5,7 +5,6 @@ const isEdit = {
       },
     data() {
         return {
-            prueba : 'Hello world',
             show: false
         }
     },
