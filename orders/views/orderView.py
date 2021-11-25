@@ -2,6 +2,7 @@ from django.http.response import HttpResponse
 from django.shortcuts import redirect, render
 from django.views import View
 from django.views.generic import TemplateView, ListView
+from orders.utils.utils import range_for_paginations
 
 from django.contrib import messages
 from datetime import datetime
@@ -42,12 +43,7 @@ class OrdersView(ListView):
 
     def get_context_data(self, **kwargs: Any):
         contex = super().get_context_data(**kwargs)
-        value_range = 5
-        value_range_max = contex['paginator'].num_pages
-        value_min = contex['page_obj'].number - value_range
-        value_max = contex['page_obj'].number + value_range
-
-        contex['limit'] = (value_min if value_max < value_range_max else value_range_max -  value_range * 2, value_max if value_min > 0 else value_range * 2)
+        contex['limit'] = range_for_paginations(contex['paginator'], contex['page_obj'], 5)
         return contex
 
 

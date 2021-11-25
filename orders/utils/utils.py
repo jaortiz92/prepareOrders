@@ -34,3 +34,10 @@ def sort_sizes(list_sizes: List[str]):
     list_size: List[Any] = list_size_alpha + list_size_numeric
     list_size = list(map(str, list_size))
     return list_size
+
+def range_for_paginations(paginator, page_obj, value_range=5):
+    value_range = value_range
+    value_range_max = paginator.num_pages
+    value_min = page_obj.number - value_range
+    value_max = page_obj.number + value_range
+    return (value_min if value_max < value_range_max else value_range_max -  value_range * 2, value_max if value_min > 0 else value_range * 2)
