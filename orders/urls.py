@@ -28,6 +28,6 @@ urlpatterns = [
 
     # Queries
     path('queries/', views.QueriesPanel.as_view(), name='queries_panel'),
-    path('queries/filter/', views.FilterView.as_view(), name='queries_filter'),
-    path('queries/dynamic/', views.DynamicQueryView.as_view(), name='dynamic_query'),
+    path('queries/filter/<str:query>/', views.FilterView.as_view(), name='queries_filter'),
+    path('queries/dynamic/<str:date>/<int:id_order>/<str:customer>/<str:agent>', views.DynamicQueryView.as_view(), name='dynamic_query'),
 ]

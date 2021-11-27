@@ -8,36 +8,60 @@
 <div class="titles-capratex">
     <h1>Filtros para consulta</h1>
 </div>
-<div class="div-form-capratex">
-    <form accion="" method="POST">
+<div class="div-form-capratex" id="query">
+    <form>
         {% csrf_token %}
         <div class="form-group row form-capratex">
             <label class="col-sm-2 col-form-label">Desde</label>
             <div class="col-sm-10">
-                <input class="form-control" type="date" placeholder="Fecha" name="date">
+                <input class="form-control" type="date" placeholder="Fecha" v-model="date">
             </div>
             <label class="col-sm-2 col-form-label">ID Orden</label>
             <div class="col-sm-10">
-                <input class="form-control" type="number" placeholder="ID Orden" name="id_order" id="id_order">
+                <input class="form-control" type="number" placeholder="ID Orden" v-model="id_order" id="id_order">
             </div>
             <label class="col-sm-2 col-form-label">Cliente</label>
             <div class="col-sm-10">
-                <input class="form-control" type="text" placeholder="Cliente" name="customer">
+                <input class="form-control" type="text" placeholder="Cliente" v-model="customer">
             </div>
             <label class="col-sm-2 col-form-label">Vendedor</label>
             <div class="col-sm-10">
-                <input class="form-control" type="text" placeholder="Vendedor" name="agent">
+                <input class="form-control" type="text" placeholder="Vendedor" v-model="agent">
             </div>
         </div>
         <div class="form-group form-capratex">
-            <button class="btn btn-primary mt-3" type="submit">Generar Consulta</button>
+            <a class="btn btn-primary mt-3" @click='search' href="#">Generar Consulta</a>
             <a class="btn btn-primary mt-3" href="{% url 'order:queries_panel' %}">Regresar</a>
         </div>
     </form>
-
-    <div class="form-group form-capratex">
-        
-    </div>
-
 </div>
+{% endblock %}
+
+{% block js_code %}
+<script>
+const query = {
+    compilerOptions: {
+        delimiters: ['[[', ']]']
+      },
+    data() {
+        return {
+            date: '',
+            id_order: '',
+            customer: '',
+            agent: ''
+        }
+    },
+    methods:{
+        search: function (){
+            if (this.id_order==''){id_order=0} else {id_order=this.id_order}
+            if (this.date==''){date='0'} else {date=this.date}
+            if (this.customer==''){customer='0'} else {customer=this.customer}
+            if (this.agent==''){agent='0'} else {agent=this.agent}
+            window.location.href = `/orders/queries/dynamic/${date}/${id_order}/${customer}/${agent}`
+            }
+        },
+    }
+
+Vue.createApp(query).mount('#query')
+</script>
 {% endblock %}
