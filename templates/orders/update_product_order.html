@@ -6,7 +6,7 @@
 
 {% block container %}
 <div class="titles-capratex">
-    <h1>Administrador de ordenes</h1>
+    <h1>Modificar registro</h1>
 </div>
 <div class="div-form-capratex">
     <form accion="" method="POST">
@@ -15,11 +15,9 @@
             <table>
                 {{form.as_table}}
             </table>
+            <button class="btn btn-primary mt-3" type="submit">Guardar</button>
+            <a class="btn btn-primary mt-3" href="{% url 'order:detail_order' object.id_order_id %}">Regresar</a>
         </div>
-        <button class="btn btn-primary mt-5" type="submit">Guardar</button>
     </form>
-    <div class="form-group form-capratex">
-        <a class="btn btn-primary mt-5" href="{% url 'order:detail_order' object.id_order_id %}">Regresar</a>
-    </div>
 </div>
 {% endblock %}

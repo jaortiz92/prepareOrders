@@ -9,7 +9,7 @@
 
 <div id='is-edit'>
     <a class="btn btn-primary mt-3" href="{% url 'order:panel' %}">Regresar</a>
-    <a class="btn btn-primary mt-3" @click='showButton'><i class="fas fa-edit"></i> Editar</a>
+    <a class="btn btn-primary mt-3" @click='showButton' href="#"><i class="fas fa-edit"></i> Editar</a>
     <div class="mt-3">
         {% include "paginate.html" %}
         {% include "orders/tables/table_orders.html" %}
