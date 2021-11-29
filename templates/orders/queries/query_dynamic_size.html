@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block head_content %}
+<title>Orders with query dynamic size</title>
+{% endblock %}
+
+
+{% block container %}
+<div id="is-edit">
+    <div>
+        <a class="btn btn-primary mt-3" href="{% url 'order:queries_panel' %}">Regresar</a>
+    </div>
+    <div class="mt-3">
+        {% include "orders/tables/table_dynamic_size.html" %}
+    </div>
+</div>
+{% endblock %}

@@ -1,7 +1,7 @@
 import pandas as pd
 import re
 from typing import List, Any, Callable, Dict
-from model.Prices import Prices
+from .Prices import Prices
 
 
 class JoinPrices:

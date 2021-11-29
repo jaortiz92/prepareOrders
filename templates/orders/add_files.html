@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block head_content %}
+<title>ADD order</title>
+{% endblock %}
+
+
+{% block container %}
+
+
+<div>
+    <div class="options">
+        <div class="titles-capratex">
+            <h2>Proceso completado</h2>
+        </div>
+        <div class="tables-capratex">
+            <table>
+                <thead>
+                    <th>Numero de Orden</th>
+                    <th>Fecha</th>
+                    <th>Archivo</th>
+                    <th>Cliente</th>
+                    <th>Vendedor</th>
+                </thead>
+                <tbody>
+                    {% for order in orders %}
+                    <tr>
+                        <td>{{order.id_order}}</td>
+                        <td>{{order.date|date:"d/m/Y"}}</td>
+                        <td>{{order.file_name}}</td>
+                        <td>{{order.customer}}</td>
+                        <td>{{order.agent}}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+
+        <a class="btn btn-primary mt-5" href="{% url 'order:panel' %}">Regresar</a>
+    </div>
+    <div class="titles-capratex">
+        <h3>Errores presentados en el proceso</h3>
+    </div>
+    {% include "orders/tables/table_errors.html" %}
+</div>
+
+
+{% endblock %}

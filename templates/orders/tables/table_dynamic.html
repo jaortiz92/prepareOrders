@@ -1,0 +1,29 @@
+{% for register in values %}
+
+{% with orders=register.order %}
+{% include "orders/tables/table_orders.html" %}
+{% endwith %}
+<div class="tables-capratex">
+    <table>
+        <thead>
+            {% for name in register.columns %}
+            <th>{{name}}</th>
+            {% endfor %}
+        </thead>
+        <tbody>
+            {% for product in register.products_order %}
+            <tr>
+                {% for value in product.values %}
+                {% if value.isalnum %}
+                <td>{{value}}</td>
+                {% else %}
+                <td>{{value | floatformat:0}}</td>
+                {%endif%}
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+<br>
+{% endfor%}

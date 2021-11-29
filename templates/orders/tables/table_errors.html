@@ -1,0 +1,27 @@
+<div class="tables-capratex">
+    <table>
+        <thead>
+            <th>Tipo</th>
+            <th>Archivo</th>
+            <th>Error</th>
+        </thead>
+        <tbody>
+            {% for file in data %}
+            {% for error in file.errors.hard %}
+            <tr>
+                <td>Error</td>
+                <td>{{error.0}}</td>
+                <td>{{error.1}}</td>
+            </tr>
+            {% endfor %}
+            {% for error in file.errors.soft %}
+            <tr>
+                <td>Advertencia</td>
+                <td>{{error.0}}</td>
+                <td>{{error.1}}</td>
+            </tr>
+            {% endfor %}
+            {% endfor %}
+        </tbody>
+    </table>
+</div>

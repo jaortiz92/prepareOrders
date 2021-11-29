@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block head_content %}
+<title>ADD order</title>
+{% endblock %}
+
+
+{% block container %}
+
+
+<div>
+    <form action="{% url 'order:add_order' %}" method="POST">
+        {% csrf_token %}
+        <div class="form-group row form-capratex">
+            <div class="from-group">
+                <input class="form-control" type="date" placeholder="Fecha" name="date" required="true">
+            </div>
+
+            <div class="from-group">
+                <input class="form-control" type="text" placeholder="Cliente" name="customer" required="true">
+            </div>
+
+            <div class="from-group">
+                <input class="form-control" type="text" placeholder="Nombre de archivo" name="file_name"
+                    required="true">
+            </div>
+
+            <div class="from-group">
+                <input class="form-control" type="text" placeholder="Vendedor" name="agent" required="true">
+            </div>
+            <button class="btn btn-primary mt-3" type="submit">Agregar Orden</button>
+            <a class="btn btn-primary mt-3" href="{% url 'order:panel' %}">Regresar</a>
+        </div>
+    </form>
+</div>
+{% if success %}
+<p class="alert alert-success">{{success}}</p>
+{% endif %}
+</div>
+
+{% endblock %}

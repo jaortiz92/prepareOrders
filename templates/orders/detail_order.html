@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% block head_content %}
+<title>Orders productos</title>
+{% endblock %}
+
+
+{% block container %}
+<div id="is-edit">
+    <div>
+        <a class="btn btn-primary mt-5" href="{% url 'order:orders' %}">Regresar</a>
+        <a class="btn btn-primary mt-5 " @click='showButton' href="#"><i class="fas fa-edit"></i> Editar</a>
+    </div>
+    <div class="mt-3">
+        {% include "orders/tables/table_orders.html" %}
+        {% include "orders/tables/table_products_order.html" %}
+    </div>
+</div>
+{% endblock %}
+
+{% load static %}
+{% block js_code %}
+<script type="text/javascript" src="{% static 'vue/isEdit.js' %}"></script>
+
+<script>
+    $(document).ready(function () {
+        $(document).on("click", ".editable", function () {
+            var value = $(this).text();
+            console.log(value)
+            var type = $(this).data("type")
+            var input = "<input type='" + type + "' class='form-control' value='" + value + "'>"
+            $(this).html(input)
+            $(this).removeClass("editable")
+        });
+        $(document).on("blur", ".form-control", function () {
+            var value = $(this).val();
+            var td = $(this).parent("td");
+            $(this).remove();
+            td.html(value);
+            td.addClass("editable");
+            var field = td.data("field");
+            sendToServer(td.data("id"), value, field);
+        });
+
+        $(document).on("keypress", ".form-control", function (e) {
+            var key = e.which;
+            if (key == 13) {
+                var value = $(this).val();
+                var td = $(this).parent("td");
+                $(this).remove();
+                td.html(value);
+                td.addClass("editable");
+                var field = td.data("field");
+                sendToServer(td.data("id"), value, field);
+            }
+        });
+
+        function sendToServer(id, value, field) {
+            $.ajax({
+                url: "{% url 'order:update_product_order_api' %}",
+                type: "POST",
+                data: {
+                    id: id,
+                    field: field,
+                    value: value
+                },
+            })
+                .done(function (response) {
+                    console.log(response);
+                })
+                .fail(function () {
+                    console.log("Error Occured");
+                });
+
+        }
+    });
+
+
+</script>
+{% endblock %}

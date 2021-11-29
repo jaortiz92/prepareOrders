@@ -7,3 +7,4 @@ files/*
 *.pyc
 *.db
 *.zip
+*.sqlite3
