@@ -43,80 +43,6 @@ class ServicesAddNewOrders:
         return list_total
 
 
-class ServicesAddPandasOrders():
-    def __init__(self, df) -> None:
-        # init_file()
-        self.init_process(df)
-
-    def init_process(self, df) -> None:
-        list_rows = []
-        for i in range(df.shape[0]):
-
-            if isinstance(df['FECHA'][i], pd.Timestamp):
-                date = df['FECHA'][i].strftime('%Y-%m-%d %X')
-            elif isinstance(df['FECHA'][i], str):
-                date = df['FECHA'][i]
-            else:
-                date = ''
-
-            # row_order = RowOrder(
-            #     id=df['ID'][i],
-            #     reference=df['REFERENCIA'][i],
-            #     color=df['COLOR'][i],
-            #     size=df['TALLAS'][i],
-            #     quantity=df['CANTIDAD'][i],
-            #     line=df['LINEA'][i],
-            #     date=date,
-            #     month=df['MES'][i],
-            #     year=df['AÑO'][i],
-            #     customer=df['CLIENTE'][i],
-            #     request=df['PEDIDO #'][i],
-            #     agent=df['VENDEDOR'][i],
-            #     price=df['PRECIO UND'][i],
-            #     cost=df['COSTO'][i],
-            #     collection=df['COLECCIÓN'][i],
-            #     status=df['ESTADO'][i]
-            # ).row()
-            # list_rows.append(row_order)
-
-        # insert_rows_orders(list_rows)
-
-
-class ServicesAddFileOrdersOrigin(ServicesAddPandasOrders):
-    def __init__(self, nane_file) -> None:
-        df = pd.read_excel(nane_file,
-                           sheet_name='BASE', dtype={'PEDIDO #': str, 'TALLAS': str,  'COLOR': str})
-
-        super().__init__(df)
-
-
-class ServicesAddFileOrders(ServicesAddPandasOrders):
-    def __init__(self, nane_file) -> None:
-        df = pd.read_excel(nane_file, dtype={
-                           'PEDIDO #': str, 'TALLAS': str, 'COLOR': str})
-        min_value = min(df['ID'])
-        max_value = max(df['ID'])
-        # delete_range(min_value=min_value, max_value=max_value)
-        super().__init__(df)
-
-
-class ServicesReadOrders():
-
-    def __init__(self, date=None) -> None:
-        self.init_process(date)
-
-    def init_process(self, date) -> None:
-        # self.df = pd.DataFrame(read_all_orders(date), columns=COLUMNS)
-        # save_file(self.df, NAME_FILE_ORDERS)
-        pass
-
-
-class ServicesDeleteRange():
-    def __init__(self, min_value, max_value) -> None:
-        # delete_range(min_value=min_value, max_value=max_value)
-        pass
-
-
 class ServicesReadPivot():
 
     def __init__(self, orders, products) -> None:
@@ -152,5 +78,41 @@ class ServicesReadPivot():
                 'order': self.df_orders[self.df_orders['id_order'] == order].to_dict(orient='records'),
                 'products_order': self.df[self.df['ID Pedido'] == order].to_dict(orient='records'),
                 'columns': self.df.columns
+            })
+        return data
+
+
+class ServicesReadPivotSize():
+    def __init__(self, products) -> None:
+        self.df = pd.DataFrame(
+            products).astype(dtype={'id_order_id': str, 'reference': str, 'color': str})
+        self.init_process()
+
+    def init_process(self) -> None:
+        df = pd.pivot_table(self.df, values=['quantity'], index=[
+                            'line', 'brand'], columns=['size'], aggfunc=sum)
+
+        df.columns = df.columns.droplevel()
+        list_sizes = sort_sizes(df.columns)
+        df = df[list_sizes]
+        df = df.reset_index()
+        df = df.sort_values(
+            ['line', 'brand'])
+        df = df.fillna(0)
+        df['total'] = df.iloc[:, 3:].sum(axis=1)
+        df.rename(columns={
+            'line': 'Linea',
+            'brand': 'Marca',
+            'total': 'Total'
+        }, inplace=True)
+        self.df = df
+
+    def data(self):
+        data = []
+        for line in pd.unique(self.df['Linea']):
+            data.append({
+                'line': line,
+                'products_order': self.df[self.df['Linea'] == line].iloc[:, 1:].to_dict(orient='records'),
+                'columns': self.df.columns[1:]
             })
         return data

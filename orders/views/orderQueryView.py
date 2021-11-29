@@ -8,13 +8,14 @@ from django.views import View
 from django.contrib import messages
 from django.core.paginator import Paginator
 from django.views.generic.list import ListView
-import pandas as pd
+from django.db.models import Count, Sum
 
 
 from datetime import date
 
 from orders.models import *
 from orders.ServicesOrders import *
+from orders.utils import select_to_search_order
 
 
 class QueriesPanel(View):
@@ -30,16 +31,8 @@ class DynamicQueryView(ListView):
     template_without_results = 'orders/queries/filter_form.html'
 
     def post(self, request, *args, **kwargs):
-        to_search = {}
-        if kwargs.get('date', None) != '0':
-            to_search['date__gte'] = kwargs['date']
-        if kwargs.get('id_order', None) != 0:
-            to_search['id_order'] = kwargs['id_order']
-        if kwargs.get('customer', None) != '0':
-            to_search['customer__icontains'] = kwargs['customer']
-        if kwargs.get('agent', None) != '0':
-            to_search['agent__icontains'] = kwargs['agent']
-        print(to_search)
+        to_search = select_to_search_order(kwargs)
+
         if len(to_search) > 0:
             orders = Order.objects.filter(**to_search)
         else:
@@ -70,11 +63,40 @@ class DynamicQueryView(ListView):
     def get(self, request, **kwargs):
         return self.post(request, **kwargs)
 
+
+class DynamicSizeQueryView(View):
+    template_name = 'orders/queries/query_dynamic_size.html'
+    template_without_results = 'orders/queries/filter_form.html'
+    
+    def get(self, request, **kwargs):
+        to_search = select_to_search_order(kwargs)
+        if len(to_search) > 0:
+            orders = Order.objects.filter(**to_search)
+        else:
+            orders = Order.objects.all()
+
+        if orders:
+            products_order = ProductOrder.objects.filter(id_order_id__in=orders)
+            values = ServicesReadPivotSize(products_order.values()).data()
+            data = {
+                'values': values,
+            }
+            return render(request, self.template_name, data)
+        else:
+            messages.error(request, f'No se encontró información')
+            return render(request, self.template_without_results)
+
+        
+        
+
+
 class FilterView(View):
     template_name = 'orders/queries/filter_form.html'
 
     def get(self, request, **kwargs):
         data = {'next_page': ''}
         if kwargs['query'] == 'dynamic':
-            data['next_page'] = 'order:dynamic_query'
+            data['next_page'] = 'dynamic'
+        elif kwargs['query'] == 'dynamic_size':
+            data['next_page'] = 'dynamic_size'
         return render(request, self.template_name, data)
