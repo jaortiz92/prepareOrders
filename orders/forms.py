@@ -8,3 +8,10 @@ class ProductOrderFrom(forms.ModelForm):
         model = ProductOrder
         fields = ('reference', 'color', 'size', 'quantity', 'price', 'total_price',
                   'line', 'brand', 'collection', 'cost', 'total_cost', 'status')
+
+
+class OrderFrom(forms.ModelForm):
+
+    class Meta:
+        model = Order
+        fields = ('date', 'customer', 'file_name', 'agent', 'email')
