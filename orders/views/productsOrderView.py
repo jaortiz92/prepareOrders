@@ -36,7 +36,11 @@ class UpdateProductOrderView(UpdateView):
         self.object = self.get_object()
         self.success_url = reverse_lazy(
             'order:detail_order', kwargs={'id_order': self.object.id_order_id})
-        messages.success(request, f'Se modificó producto con ID {self.kwargs["id_product_order"]}')
+
+        form = self.get_form()
+        if form.is_valid():
+            messages.success(request, f'Se modificó producto con ID {self.kwargs["id_product_order"]}')
+            
         return super().post(request, *args, **kwargs)
 
 class DeleteProductOrderView(View):

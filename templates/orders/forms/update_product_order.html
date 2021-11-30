@@ -8,16 +8,32 @@
 <div class="titles-capratex">
     <h1>Modificar registro</h1>
 </div>
-<div class="div-form-capratex">
+<div class="div-form-capratex" id="change-totals">
     <form accion="" method="POST">
         {% csrf_token %}
         <div class="form-group row form-capratex">
             <table>
-                {{form.as_table}}
+                <tbody>
+                    {% for field in form%}
+                    <tr>
+                        <th>
+                            {{field.label_tag}}
+                        </th>
+                        <td @change="onChange()">
+                            {{ field }}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
             </table>
             <button class="btn btn-primary mt-3" type="submit">Guardar</button>
             <a class="btn btn-primary mt-3" href="{% url 'order:detail_order' object.id_order_id %}">Regresar</a>
         </div>
     </form>
 </div>
+{% endblock %}
+
+{% load static %}
+{% block js_code %}
+<script type="text/javascript" src="{% static 'vue/changeTotals.js' %}"></script>
 {% endblock %}

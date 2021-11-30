@@ -4,12 +4,12 @@ from datetime import datetime
 
 
 class Order(models.Model):
-    id_order = models.AutoField(primary_key=True)
-    date = models.DateTimeField()
-    customer = models.CharField(max_length=100)
-    file_name = models.CharField(max_length=100, unique=True)
-    agent = models.CharField(max_length=100)
-    email = models.EmailField()
+    id_order = models.AutoField('ID', primary_key=True)
+    date = models.DateTimeField('Fecha')
+    customer = models.CharField('Cliente', max_length=100)
+    file_name = models.CharField('Nombre de Archivo', max_length=100, unique=True)
+    agent = models.CharField('Vendedor', max_length=100)
+    email = models.EmailField('Correo elctronico')
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
 

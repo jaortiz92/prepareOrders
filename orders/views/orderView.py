@@ -119,6 +119,8 @@ class UpdateOrderView(UpdateView):
     success_url = reverse_lazy('order:orders')
 
     def post(self, request, *args, **kwargs):
-        messages.success(
-            request, f'Se modificó orden con ID {self.kwargs["id_order"]}')
+        form = self.get_form()
+        if form.is_valid():
+            messages.success(
+                request, f'Se modificó orden con ID {self.kwargs["id_order"]}')
         return super().post(request, *args, **kwargs)
