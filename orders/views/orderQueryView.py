@@ -1,17 +1,8 @@
-from re import template
-from typing import Awaitable
-from django.db.models import query
-from django.http.response import HttpResponse
 from django.shortcuts import redirect, render
-from django.urls import reverse_lazy
 from django.views import View
 from django.contrib import messages
 from django.core.paginator import Paginator
 from django.views.generic.list import ListView
-from django.db.models import Count, Sum
-
-
-from datetime import date
 
 from orders.models import *
 from orders.ServicesOrders import *
@@ -58,7 +49,7 @@ class DynamicQueryView(ListView):
             return render(request, self.template_name, data)
         else:
             messages.error(request, f'No se encontró información')
-            return render(request, self.template_without_results)
+            return render(request, self.template_without_results, {'next_page': 'dynamic'})
 
     def get(self, request, **kwargs):
         return self.post(request, **kwargs)
@@ -84,10 +75,7 @@ class DynamicSizeQueryView(View):
             return render(request, self.template_name, data)
         else:
             messages.error(request, f'No se encontró información')
-            return render(request, self.template_without_results)
-
-        
-        
+            return render(request, self.template_without_results, {'next_page': 'dynamic_size'})
 
 
 class FilterView(View):
