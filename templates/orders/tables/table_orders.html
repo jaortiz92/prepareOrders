@@ -8,6 +8,7 @@
             <th>Vendedor</th>
             <th>Email</th>
             <th v-if="show">Detalle</th>
+            <th v-if="show">Editar</th>
             <th v-if="show">Eliminar</th>
         </thead>
         <tbody>
@@ -19,9 +20,14 @@
                 <td>{{order.customer}}</td>
                 <td>{{order.agent}}</td>
                 <td>{{order.email}}</td>
-                <td v-if="show"><a class="btn btn-primary btn-block" href="/orders/orders/detail_order/{{order.id_order}}"><i class="fas fa-info-circle"></i></a></td>
+                <td v-if="show"><a class="btn btn-success btn-block"
+                        href="/orders/orders/detail_order/{{order.id_order}}"><i class="fas fa-info-circle"></i></a>
+                </td>
+                <td v-if="show"><a class="btn btn-primary btn-block"
+                        href="{%url 'order:update_order' order.id_order %}"><i class="fas fa-edit"></i></a></td>
                 <td v-if="show"><a class="btn btn-danger btn-block" href="#"
-                        @click="deleteOrder({{order.id_order}}, '{{order.file_name}}')"><i class="far fa-trash-alt"></i></a>
+                        @click="deleteOrder({{order.id_order}}, '{{order.file_name}}')"><i
+                            class="far fa-trash-alt"></i></a>
                 </td>
             </tr>
             {% endfor %}

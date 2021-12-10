@@ -15,20 +15,25 @@ urlpatterns = [
          name='delete_order'),
     path('add_files/', views.AddFilesView.as_view(),
          name='add_files'),
+    path('orders/forms/update_product_order/<int:id_order>',
+         views.UpdateOrderView.as_view(), name='update_order'),
 
     # Products Order
     path('products/', views.ProductsOrderView.as_view(), name='oders_products'),
-    path('products/update_product_order/<int:id_product_order>',
+    path('products/forms/update_product_order/<int:id_product_order>',
          views.UpdateProductOrderView.as_view(), name='update_product_order'),
     path('products/delete_product_order/<int:id_product_order>',
          views.DeleteProductOrderView.as_view(), name='delete_product_order'),
-    # Products Order
+    # API Products Order
     path('products/update_product_order_api',
          views.update_product_order_view_API, name='update_product_order_api'),
 
     # Queries
     path('queries/', views.QueriesPanel.as_view(), name='queries_panel'),
-    path('queries/filter/<str:query>/', views.FilterView.as_view(), name='queries_filter'),
-    path('queries/dynamic/<str:date>/<int:id_order>/<str:customer>/<str:agent>', views.DynamicQueryView.as_view(), name='dynamic_query'),
-    path('queries/dynamic_size/<str:date>/<int:id_order>/<str:customer>/<str:agent>', views.DynamicSizeQueryView.as_view(), name='dynamic_size'),
+    path('queries/filter/<str:query>/',
+         views.FilterView.as_view(), name='queries_filter'),
+    path('queries/dynamic/<str:date>/<int:id_order>/<str:customer>/<str:agent>',
+         views.DynamicQueryView.as_view(), name='dynamic_query'),
+    path('queries/dynamic_size/<str:date>/<int:id_order>/<str:customer>/<str:agent>',
+         views.DynamicSizeQueryView.as_view(), name='dynamic_size'),
 ]
