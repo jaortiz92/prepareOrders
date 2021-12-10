@@ -1,6 +1,6 @@
 const isEdit = {
     compilerOptions: {
-        delimiters: ['${', '}']
+        delimiters: ['[[', ']]']
         
       },
     data() {
@@ -8,13 +8,15 @@ const isEdit = {
             show: false
         }
     },
+    mounted(){
+        if(localStorage.show === 'true') {this.show = true}
+        else {this.show = false};
+    },
     methods:{
         showButton: function (){
-            if (this.show){
-                this.show = false    
-            } else {
-                this.show = true
-            }
+            if (this.show){this.show = false;} 
+            else {this.show = true;}
+            localStorage.show = this.show;
         },
 
         deleteOrder: function(id, value){

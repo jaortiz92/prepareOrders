@@ -1,12 +1,12 @@
 {% extends "base.html" %}
 {% block head_content %}
-<title>Filtros</title>
+<title>Modificar Orden</title>
 {% endblock %}
 
 
 {% block container %}
 <div class="titles-capratex">
-    <h1>Modificar registro</h1>
+    <h1>Modificar Orden</h1>
 </div>
 <div class="div-form-capratex">
     <form accion="" method="POST">
@@ -16,7 +16,7 @@
                 {{form.as_table}}
             </table>
             <button class="btn btn-primary mt-3" type="submit">Guardar</button>
-            <a class="btn btn-primary mt-3" href="{% url 'order:detail_order' object.id_order_id %}">Regresar</a>
+            <a class="btn btn-primary mt-3" href="{% url 'order:orders' %}">Regresar</a>
         </div>
     </form>
 </div>

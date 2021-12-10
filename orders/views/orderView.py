@@ -1,14 +1,16 @@
 from django.http.response import HttpResponse
 from django.shortcuts import redirect, render
 from django.views import View
-from django.views.generic import TemplateView, ListView
+from django.views.generic import TemplateView, ListView, UpdateView
 from orders.utils.utils import range_for_paginations
+from django.urls import reverse_lazy
 
 from django.contrib import messages
 from datetime import datetime
 
 from orders.models import *
 from orders.ServicesOrders import *
+from orders.forms import OrderFrom
 # Create your views here.
 
 
@@ -37,13 +39,14 @@ class AddOrderView(View):
 class OrdersView(ListView):
     model = Order
     template_name = 'orders/orders.html'
-    paginate_by  = 10
+    paginate_by = 10
     queryset = Order.objects.all()
     context_object_name = 'orders'
 
     def get_context_data(self, **kwargs: Any):
         contex = super().get_context_data(**kwargs)
-        contex['limit'] = range_for_paginations(contex['paginator'], contex['page_obj'], 5)
+        contex['limit'] = range_for_paginations(
+            contex['paginator'], contex['page_obj'], 5)
         return contex
 
 
@@ -71,7 +74,7 @@ class AddFilesView(View):
         for row in data:
             if len(row['errors']['hard']) > 0:
                 messages.error(request, 'Error al generar las ordenes')
-                return render(request, self.template_error, {'data' : data})
+                return render(request, self.template_error, {'data': data})
         counter = 0
         for order in data:
             order_created = Order.objects.create(**order['order'])
@@ -86,7 +89,7 @@ class AddFilesView(View):
         messages.success(request, f'Se agregaron {counter} archivos')
         data = {
             'orders': list_orders,
-            'data' : data
+            'data': data
 
         }
 
@@ -106,3 +109,18 @@ class FilterForOrderView(View):
             'to_edit': False
         }
         return render(request, self.template_name, data)
+
+
+class UpdateOrderView(UpdateView):
+    template_name = 'orders/forms/update_order.html'
+    form_class = OrderFrom
+    queryset = Order.objects.all()
+    pk_url_kwarg = 'id_order'
+    success_url = reverse_lazy('order:orders')
+
+    def post(self, request, *args, **kwargs):
+        form = self.get_form()
+        if form.is_valid():
+            messages.success(
+                request, f'Se modificó orden con ID {self.kwargs["id_order"]}')
+        return super().post(request, *args, **kwargs)
