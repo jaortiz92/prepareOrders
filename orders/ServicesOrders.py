@@ -62,8 +62,8 @@ class ServicesReadPivot():
         df = df.sort_values(
             ['id_order_id', 'reference', 'color'])
         # Change nan for "" before it was for 0
-        df = df.fillna("")
         df['total'] = df.iloc[:, 3:].sum(axis=1)
+        df = df.fillna("")
         df.rename(columns={
             'id_order_id': 'ID Pedido',
             'reference': 'Referencia',
