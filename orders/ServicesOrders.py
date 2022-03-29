@@ -31,10 +31,13 @@ class ServicesAddNewOrders:
         files = os.listdir(PATH_NEW_ORDERS)
         files_order = {}
         extract = re.compile('^([0-9]+).*')
+        counter = 0
         for file in files:
+            counter += 1
             file_match = extract.match(file)
             if file_match:
-                files_order[int(file_match.group(1)) - 1] = file
+                #files_order[int(file_match.group(1)) - 1] = file
+                files_order[counter] = file
         list_total = []
 
         for file in files_order.values():

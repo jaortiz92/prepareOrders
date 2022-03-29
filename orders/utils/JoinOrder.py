@@ -58,6 +58,7 @@ class JoinOrder:
     def body(self):
         df = pd.read_excel(self.filePATH, header=5, dtype={
                            'COLOR': str, 'REFERENCIA': str}).loc[:, :'TOTAL'].iloc[:-1, :]
+        
         try:
             df_1 = pd.read_excel(self.filePATH, header=5, dtype={
                                  'Estado': str}).loc[:, 'Estado']
@@ -70,6 +71,7 @@ class JoinOrder:
         df = df[df['TOTAL'].apply(is_number)].reset_index(drop=True)
         # Fill nan values
         df['REFERENCIA'].fillna(method='ffill', inplace=True)
+        df['REFERENCIA'] = df['REFERENCIA'].apply(lambda x: x.upper())
         df['COLOR'].fillna('SURTIDO', inplace=True)
         return self.select_data(df)
 
